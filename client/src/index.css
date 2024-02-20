@@ -1,0 +1,53 @@
+@tailwind base;
+
+@layer base {
+  html {
+    @apply text-neutral-800;
+  }
+
+  html.dark {
+    @apply text-neutral-50;
+    @apply bg-neutral-800;
+  }
+}
+
+@tailwind components;
+
+@layer components {
+  .card {
+    @apply rounded-md p-3 border-neutral-300 dark:border-neutral-600 border-[1px];
+  }
+}
+
+@tailwind utilities;
+
+::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #a3a3a3;
+}
+
+.slick-prev {
+  left: 0;
+  z-index: 10;
+  top: 80px
+}
+
+.slick-next {
+  right: 0;
+  z-index: 10;
+  top: 80px
+}
+
+.slick-hero .slick-prev {
+  left: 30px;
+  top: 80px
+}
+
+.slick-hero .slick-next {
+  right: 30px;
+  top: 80px
+}

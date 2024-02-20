@@ -1,0 +1,23 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@": "./src",
+          "@utils": "./src/lib/utils",
+          "@lib": "./src/lib",
+          "@constant": "./src/constant",
+          "@api": "./src/api",
+          "@components": "./src/components",
+          "@context": "./src/context",
+          "@hook": "./src/hook",
+          "@layout": "./src/layout",
+          "@routes": "./src/routes",
+          "@store": "./src/store",
+          "@view": "./src/view"
+        }
+      }
+    ]
+  ]
+}
