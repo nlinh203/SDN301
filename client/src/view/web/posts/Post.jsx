@@ -53,6 +53,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
 
   const onDelete = async () => {
     if (!userInfo?._id) return onWarning();
+<<<<<<< HEAD
     const response = await deletePostApi({ _id: item._id });
     if (response) {
       const response = await getInfoApi();
@@ -60,6 +61,21 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
         setUserInfo(response);
       } else localStorage.removeItem('token');
     }
+=======
+    showConfirm({
+      title: 'Bạn có chắc chắn muốn xóa bài viết này không!',
+      action: async () => {
+        const response = await deletePostApi({ _id: item._id });
+        if (response) {
+          setRender((pre) => !pre);
+          const response = await getInfoApi();
+          if (response) {
+            setUserInfo(response);
+          } else localStorage.removeItem('token');
+        }
+      }
+    });
+>>>>>>> main
   };
 
   return (
@@ -128,7 +144,10 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
       </div>
     </div>
   );
+<<<<<<< HEAD
   
+=======
+>>>>>>> main
 };
 
 export default Post;
