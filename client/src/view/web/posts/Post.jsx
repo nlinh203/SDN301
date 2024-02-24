@@ -128,6 +128,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
       </div>
     </div>
   );
+  
 };
 
 export default Post;
