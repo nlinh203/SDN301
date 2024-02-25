@@ -1,5 +1,6 @@
 
-import {Personal} from '@view/web';
+import { SignIn, SignUp, ForgotPassword } from '@view/auth';
+import { Personal} from '@view/web';
 
 const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
