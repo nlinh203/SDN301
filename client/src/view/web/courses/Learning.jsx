@@ -3,8 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { BiChevronLeft, BiMenu } from 'react-icons/bi';
 import { BiChevronRight } from 'react-icons/bi';
 import Lesson from './Lesson';
-import { detailCourseRegisterApi } from '@api';
-import { useGetApi } from '@lib/react-query';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { BiPlayCircle } from 'react-icons/bi';
 import { TERipple } from 'tw-elements-react';
@@ -13,6 +11,7 @@ import { BiSolidLock } from 'react-icons/bi';
 import Discuss from './Discuss';
 import { BiSolidConversation } from 'react-icons/bi';
 import { formatMinuteStringV1 } from '@utils';
+import {courses} from "../../../data";
 
 const Learning = () => {
   const navigate = useNavigate();
@@ -21,7 +20,7 @@ const Learning = () => {
   const [isShow, setIsShow] = useState(true);
   const [show, setShow] = useState(false);
   const [render, setRender] = useState(false);
-  const { data } = useGetApi(detailCourseRegisterApi, { slug, render }, 'course');
+  const data = courses.find(c => c.slug === slug)
   const id = new URLSearchParams(location.search).get('id');
   const completedLessons = data?.lessons?.filter((l) => l.status === 'isCompleted') || [];
   const currentIndex = data?.lessons?.findIndex((l) => l.lesson?._id === id);

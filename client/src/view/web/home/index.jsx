@@ -2,13 +2,9 @@ import { Carousel } from '@components/uiCore';
 import React from 'react';
 import CourseSlider from './CourseSlider';
 import PostList from './PostList';
-import { useGetApi } from '@lib/react-query';
-import { getListCourseWebApi, getListPostWebApi } from '@api';
+import {courses, posts} from "../../../data";
 
 const Home = () => {
-  const { data: posts } = useGetApi(getListPostWebApi, { page: 1, limit: 10 }, 'posts');
-  const { data: coursesNew } = useGetApi(getListCourseWebApi, { page: 1, limit: 10, characteristic: ['isNew'] }, 'coursesNew');
-  const { data: coursesHot } = useGetApi(getListCourseWebApi, { page: 1, limit: 10, characteristic: ['isHot'] }, 'coursesHot');
 
   return (
     <div className='flex flex-col gap-12'>
@@ -37,9 +33,9 @@ const Home = () => {
           }
         ]}
       />
-      <CourseSlider items={coursesNew?.documents} type="new" />
-      <CourseSlider items={coursesHot?.documents} type="hot" />
-      <PostList items={posts?.documents} />
+      <CourseSlider items={courses.filter(c => c.isNew)} type="new" />
+      <CourseSlider items={courses.filter(c => c.isHot)} type="hot" />
+      <PostList items={posts} />
     </div>
   );
 };

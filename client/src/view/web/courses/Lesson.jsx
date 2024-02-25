@@ -1,14 +1,13 @@
-import { detailLessonRegisterApi } from '@api';
 import { UploadFiles } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
-import { useGetApi } from '@lib/react-query';
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import { BiSolidHeart } from 'react-icons/bi';
 import AnswerQuestion from './AnswerQuestion';
+import {lessons} from "../../../data";
 
 const Lesson = ({ courseId, lessonId, setRender }) => {
-  const { data } = useGetApi(detailLessonRegisterApi, { lessonId, courseId }, 'lesson', Boolean(courseId && lessonId));
+  const data = lessons.find(l => l._id === lessonId)
   const [show, setShow] = useState()
   const date = new Date(data?.updatedAt);
   const month = date.getMonth() + 1;

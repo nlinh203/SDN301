@@ -1,19 +1,12 @@
 import { Loading } from '@components/base';
 import { Button } from '@components/uiCore';
 import { REGEX } from '@constant';
-import { usePostApi } from '@lib/react-query';
-import { useToastState } from '@store';
 import React from 'react';
 
 const SendOtpInput = ({ id, register = () => {}, errors = {}, email, username, isSend, setIsSend, api }) => {
-  const { mutateAsync, isPending } = usePostApi(api);
-  const { showToast } = useToastState();
+    const isPending =false
   const onSendOtp = async () => {
-    const response = await mutateAsync({ email, username });
-    if (response) {
-      showToast({ title: `Đã gửi mã OTP đến email ${email}`, severity: 'success' });
-      setIsSend(true);
-    }
+
   };
 
   return (

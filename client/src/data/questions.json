@@ -1,0 +1,261 @@
+[
+  {
+    "_id": {"$oid": "65d9deac42380a9159d359ce"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9deac42380a9159d359cf"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9deac42380a9159d359d0"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9deac42380a9159d359d1"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9deac42380a9159d359d2"}
+      },
+      {
+        "label": "5",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9deac42380a9159d359d3"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân",
+    "createdAt": {"$date": "2024-02-24T12:18:52.476Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:18:52.476Z"}
+  },
+  {
+    "_id": {"$oid": "65d9def342380a9159d35a6b"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def342380a9159d35a6c"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def342380a9159d35a6d"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def342380a9159d35a6e"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def342380a9159d35a6f"}
+      },
+      {
+        "label": "6",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9def342380a9159d35a70"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân 1",
+    "createdAt": {"$date": "2024-02-24T12:20:03.951Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:03.951Z"}
+  },
+  {
+    "_id": {"$oid": "65d9def442380a9159d35a75"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def442380a9159d35a76"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def442380a9159d35a77"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def442380a9159d35a78"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def442380a9159d35a79"}
+      },
+      {
+        "label": "7",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9def442380a9159d35a7a"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân 2",
+    "createdAt": {"$date": "2024-02-24T12:20:04.556Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:04.556Z"}
+  },
+  {
+    "_id": {"$oid": "65d9def542380a9159d35a7f"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a80"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a81"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a82"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a83"}
+      },
+      {
+        "label": "8",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9def542380a9159d35a84"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân 3",
+    "createdAt": {"$date": "2024-02-24T12:20:05.222Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:05.222Z"}
+  },
+  {
+    "_id": {"$oid": "65d9def542380a9159d35a89"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a8a"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a8b"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a8c"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def542380a9159d35a8d"}
+      },
+      {
+        "label": "9",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9def542380a9159d35a8e"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân 4",
+    "createdAt": {"$date": "2024-02-24T12:20:05.820Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:05.820Z"}
+  },
+  {
+    "_id": {"$oid": "65d9def642380a9159d35a93"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def642380a9159d35a94"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def642380a9159d35a95"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def642380a9159d35a96"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def642380a9159d35a97"}
+      },
+      {
+        "label": "10",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9def642380a9159d35a98"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân 5",
+    "createdAt": {"$date": "2024-02-24T12:20:06.419Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:06.419Z"}
+  },
+  {
+    "_id": {"$oid": "65d9def742380a9159d35a9d"},
+    "__v": 0,
+    "answers": [
+      {
+        "label": "1",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def742380a9159d35a9e"}
+      },
+      {
+        "label": "2",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def742380a9159d35a9f"}
+      },
+      {
+        "label": "3",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def742380a9159d35aa0"}
+      },
+      {
+        "label": "4",
+        "isAnswer": false,
+        "_id": {"$oid": "65d9def742380a9159d35aa1"}
+      },
+      {
+        "label": "11",
+        "isAnswer": true,
+        "_id": {"$oid": "65d9def742380a9159d35aa2"}
+      }
+    ],
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Con mèo có mấy chân 6",
+    "createdAt": {"$date": "2024-02-24T12:20:07.020Z"},
+    "lessonId": {"$oid": "65d9de5842380a9159d359a7"},
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:07.020Z"}
+  }
+]

@@ -5,17 +5,11 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormAuth, Loading } from '@components/base';
-import { sendOtpSignupApi, signupApi } from '@api';
-import { usePostApi } from '@lib/react-query';
-import { useNavigate } from 'react-router-dom';
-import { useToastState } from '@store';
 import SendOtpInput from './shared/SendOtpInput';
 
 const SignIn = () => {
-  const navigate = useNavigate();
-  const { showToast } = useToastState();
-  const { mutateAsync, isPending } = usePostApi(signupApi);
   const [isSend, setIsSend] = useState();
+  const isPending =false
 
   const {
     register,
@@ -27,11 +21,7 @@ const SignIn = () => {
   });
   
   const onSubmit = async (data) => {
-    const response = await mutateAsync(data);
-    if (response) {
-      showToast({ title: 'Đăng Ký tài khoản thành công', severity: 'success' });
-      navigate('/auth/signin');
-    }
+
   };
 
   return (
@@ -50,7 +40,7 @@ const SignIn = () => {
             username={watch('username')}
             isSend={isSend}
             setIsSend={setIsSend}
-            api={sendOtpSignupApi}
+            api={() => {}}
           />
           <div className="flex items-center justify-between">
             <CheckBox id="remember" label="Đồng ý điều khoản và dịch vụ" />
