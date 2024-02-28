@@ -16,8 +16,8 @@ const DetailCourseWeb = () => {
   const { userInfo, isAuthenticated, setUserInfo } = useAuthContext();
   const { showToast } = useToastState();
   const { showConfirm } = useConfirmState();
-  const [show, setShow] = useState(false);
   const [render, setRender] = useState(false);
+  const [show, setShow] = useState(false)
   const { data } = useGetApi(detailCourseWebApi, { slug, render }, 'course');
   const reviews = data?.reviews;
   const check = reviews && Array.isArray(reviews) ? !Boolean(reviews.find((r) => r.by._id === userInfo._id)) : true;
