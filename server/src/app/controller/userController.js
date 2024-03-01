@@ -62,6 +62,39 @@ export const addUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+  try {
+    const { error, value } = validateData(updateUserValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    let { _id, fullName, username, email, password, bio, address, status, role, avatar } = value;
+
+    const user = await getDetailUserMd({ _id });
+    if (!user) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
+
+    if (email) {
+      const checkEmail = await getDetailUserMd({ email });
+      if (checkEmail) return res.status(400).json({ status: false, mess: 'Email đã tồn tại!' });
+    }
+
+    if (username) {
+      const checkUsername = await getDetailUserMd({ username });
+      if (checkUsername) return res.status(400).json({ status: false, mess: 'Username đã tồn tại!' });
+    }
+
+    if (req.file) {
+      avatar = await uploadFileToFirebase(req.file);
+    }
+
+    const attr = { fullName, username, email, bio, address, status, role, avatar };
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      attr.password = await bcrypt.hash(password, salt);
+    }
+
+    const data = await updateUserMd({ _id }, attr);
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
  
 };
 
