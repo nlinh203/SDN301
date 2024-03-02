@@ -168,6 +168,36 @@ export const updatePost = async (req, res) => {
   }
 };
 
+export const likePost = async (req, res) => {
+  try {
+    const { error, value } = validateData(detailPostValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    let { _id } = value;
+
+    const post = await getDetailPostMd({ _id }, [{ path: 'by', select: 'fullName _id' }]);
+    if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
+
+    let data;
+    if (post.likes?.includes(req.userInfo._id)) data = await updatePostMd({ _id }, { $pull: { likes: req.userInfo._id } });
+    else {
+      if (String(post.by) !== String(req.userInfo._id))
+        await addNotifyRp({
+          fromBy: 2,
+          by: req.userInfo._id,
+          to: post.by?._id,
+          content: NOTI_CONTENT[1],
+          objectId: post._id,
+          type: 1,
+          data: { slug: post.slug },
+          fullName: post.by?.fullName
+        });
+      data = await updatePostMd({ _id }, { $addToSet: { likes: req.userInfo._id } });
+    }
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
+};
 
 export const savePost = async (req, res) => {
   try {
@@ -187,4 +217,3 @@ export const savePost = async (req, res) => {
     res.status(500).json({ status: false, mess: error.toString() });
   }
 };
-
