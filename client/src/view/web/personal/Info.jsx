@@ -1,10 +1,8 @@
-import { getInfoApi, updateUserInfoApi } from '@api';
 import { Loading } from '@components/base';
 import { InputFormDetail, TextAreaForm, UploadImage } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
 import { useAuthContext } from '@context/AuthContext';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { usePostApi } from '@lib/react-query';
 import { UserInfoValidation } from '@lib/validation';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -22,8 +20,7 @@ const defaultValues = {
 const Info = () => {
   const { userInfo, setUserInfo } = useAuthContext();
   const [avatar, setAvatar] = useState(null);
-  const { showToast } = useToastState();
-  const { mutateAsync, isPending } = usePostApi(updateUserInfoApi);
+const isPending = false
 
   const {
     register,
@@ -44,17 +41,7 @@ const Info = () => {
   }, [userInfo]);
 
   const onSubmit = async (data) => {
-    if (avatar) data.formData = { avatar };
-    else if (userInfo.avatar) data.avatar = '';
 
-    const response = await mutateAsync({ ...checkEqualProp(data, userInfo) });
-    if (response) {
-      showToast({ title: 'Cập nhật thông tin cá nhân thành công!', severity: 'success' });
-      const response = await getInfoApi();
-      if (response) {
-        setUserInfo(response);
-      } else localStorage.removeItem('token');
-    }
   };
 
   return (

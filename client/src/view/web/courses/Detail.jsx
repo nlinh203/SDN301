@@ -2,13 +2,12 @@ import { Button, Hr } from '@components/uiCore';
 import { FaCrown } from 'react-icons/fa';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { detailCourseWebApi, getInfoApi, registerCourseApi } from '@api';
-import { useGetApi } from '@lib/react-query';
 import { BiCheck } from 'react-icons/bi';
 import Reviews from './Reviews';
 import { useConfirmState, useToastState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
 import { formatMinuteStringV1, formatMinuteStringV2, formatNumber } from '@utils';
+import {courses} from "../../../data";
 
 const DetailCourseWeb = () => {
   const navigate = useNavigate();
@@ -16,9 +15,9 @@ const DetailCourseWeb = () => {
   const { userInfo, isAuthenticated, setUserInfo } = useAuthContext();
   const { showToast } = useToastState();
   const { showConfirm } = useConfirmState();
+  const [show, setShow] = useState(false);
   const [render, setRender] = useState(false);
-  const [show, setShow] = useState(false)
-  const { data } = useGetApi(detailCourseWebApi, { slug, render }, 'course');
+  const data = courses.find(c => c.slug === slug)
   const reviews = data?.reviews;
   const check = reviews && Array.isArray(reviews) ? !Boolean(reviews.find((r) => r.by._id === userInfo._id)) : true;
 
@@ -30,27 +29,6 @@ const DetailCourseWeb = () => {
   };
 
   const onRegister = async () => {
-    if (!isAuthenticated) return onWarning();
-    const price = data.price - data.sale;
-    const title =
-      price > 0
-        ? `Khóa học "${data?.name}" sẽ cần phải thanh toán ${formatNumber(price)} VNĐ, bạn có muốn tiếp tục đăng ký?`
-        : `Bạn có chắc chắn muốn đăng ký khóa học "${data?.name}"`;
-    const title2 = price > 0 ? 'Để xác nhận đăng ký khóa học, vui lòng thanh toán và chờ hệ thống xử lý!' : 'Đăng ký khóa học thành công!';
-    showConfirm({
-      title,
-      action: async () => {
-        const response = await registerCourseApi({ courseId: data?._id });
-        if (response) {
-          const response = await getInfoApi();
-          if (response) {
-            setUserInfo(response);
-            navigate('/courses/my-courses');
-          } else localStorage.removeItem('token');
-          showToast({ title: title2, severity: 'success' });
-        }
-      }
-    });
   };
 
   return (

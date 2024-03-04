@@ -1,13 +1,12 @@
-import { getListNotifyApi, readAllNotifyApi } from '@api';
 import { Hr } from '@components/uiCore';
 import React, { useEffect, useRef, useState } from 'react';
 import { MdOutlineNotificationsActive } from 'react-icons/md';
 import Notify from './Notify';
 import { TETabs, TETabsContent, TETabsItem, TETabsPane } from 'tw-elements-react';
-import { useGetApi } from '@lib/react-query';
 import { socket } from '@lib/socket-io';
 import { useAuthContext } from '@context/AuthContext';
 import { useToastState } from '@store';
+import {notifies} from "../../../../data";
 
 const NotifySection = () => {
   const ref = useRef(null);
@@ -16,8 +15,7 @@ const NotifySection = () => {
   const [isShow, setIsShow] = useState(false);
   const [render, setRender] = useState(false);
   const [buttonActive, setButtonActive] = useState('tab1');
-  const { data } = useGetApi(getListNotifyApi, { page: 1, limit: 1, status: 0, render }, 'initNotify');
-  const isReadAll = data?.documents?.length > 0;
+  const isReadAll = notifies?.length > 0;
 
   const handleButtonClick = (value) => {
     if (value !== buttonActive) setButtonActive(value);
@@ -35,8 +33,6 @@ const NotifySection = () => {
   }, []);
 
   const onReadAll = async (status) => {
-    const response = await readAllNotifyApi({ status });
-    if (response) setRender((pre) => !pre);
   };
 
   useEffect(() => {
