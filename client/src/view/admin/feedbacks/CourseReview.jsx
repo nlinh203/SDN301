@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { SelectFormV2 } from '@components/form';
 import { useGetParams } from '@hook';
-import { useGetApi } from '@lib/react-query';
 import { DataFilter, DataTable, RoleTitle, TimeBody } from '@components/base';
 import { useDataState } from '@store';
-import { getListCourseReviewApi } from '@api';
 import { Link, Rating } from '@components/uiCore';
+import {courseReview, courses} from "../../../data";
 
 const Filter = ({ setParams, courses }) => {
   const [filter, setFilter] = useState({});
@@ -31,7 +30,6 @@ const Filter = ({ setParams, courses }) => {
 const CourseReviews = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
-  const { courses } = useDataState();
 
   const columns = [
     {
@@ -54,15 +52,12 @@ const CourseReviews = () => {
     { label: 'Thời gian đánh giá', body: (item) => TimeBody(item.createdAt) }
   ];
 
-  const { isLoading, data } = useGetApi(getListCourseReviewApi, params, 'courseReviews');
-
   return (
     <>
       <Filter setParams={setParams} courses={courses} />
       <DataTable
-        isLoading={isLoading}
-        data={data?.documents}
-        totalRecord={data?.total}
+        data={courseReview}
+        totalRecord={courseReview.length}
         columns={columns}
         params={params}
         setParams={setParams}

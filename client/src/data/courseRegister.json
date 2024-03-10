@@ -1,0 +1,47 @@
+[
+  {
+    "_id": {"$oid": "65d9df0a42380a9159d35af6"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "course": {"$oid": "65d9ddb442380a9159d35912"},
+    "createdAt": {"$date": "2024-02-24T12:20:26.166Z"},
+    "lessons": [
+      {
+        "lesson": {"$oid": "65d9de5842380a9159d359a7"},
+        "status": "isStudy",
+        "_id": {"$oid": "65d9df0a42380a9159d35af7"}
+      }
+    ],
+    "price": 0,
+    "status": 1,
+    "updatedAt": {"$date": "2024-02-24T12:20:26.166Z"}
+  },
+  {
+    "_id": {"$oid": "65db1fbd7408538c1e4cc604"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "course": {"$oid": "65da177d90acc95dd805f158"},
+    "createdAt": {"$date": "2024-02-25T11:08:45.199Z"},
+    "lessons": [
+      {
+        "lesson": {"$oid": "65da256a059a4ddf9c628c26"},
+        "status": "isStudy",
+        "_id": {"$oid": "65db1fbd7408538c1e4cc605"}
+      },
+      {
+        "lesson": {"$oid": "65da25b2059a4ddf9c628c6f"},
+        "status": "isLocked",
+        "_id": {"$oid": "65db1fbd7408538c1e4cc606"}
+      },
+      {
+        "lesson": {"$oid": "65da25d7059a4ddf9c628cb8"},
+        "status": "isLocked",
+        "_id": {"$oid": "65db1fbd7408538c1e4cc607"}
+      }
+    ],
+    "price": 136174,
+    "status": 0,
+    "updatedAt": {"$date": "2024-02-25T11:08:45.199Z"},
+    "qr": "https://img.vietqr.io/image/MB-606606868-compact2.png?amount=136174&addInfo=%C4%90%C4%83ng%20k%C3%BD%20kh%C3%B3a%20h%E1%BB%8Dc%20Coursera%20Replica&accountName=Coursera%20Replica"
+  }
+]

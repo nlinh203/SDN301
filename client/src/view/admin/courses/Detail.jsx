@@ -3,15 +3,13 @@ import { CourseValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { addCourseApi, detailCourseApi, getListCourseInfoApi, updateCourseApi } from '@api';
 import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
 import { courseCharacteristic, courseType } from '@constant';
 import { useParams } from 'react-router-dom';
-import { useGetApi } from '@lib/react-query';
 import { TETabs, TETabsContent, TETabsItem, TETabsPane } from 'tw-elements-react';
 import Lessons from '@view/admin/courses/Lessons';
-import { useDataState } from '@store';
+import {courses} from "../../../data";
 
 const defaultValues = {
   name: '',
@@ -27,12 +25,11 @@ const defaultValues = {
 };
 
 const Detail = () => {
-  const { setCourses } = useDataState();
   const { _id } = useParams();
   const [image, setImage] = useState(null);
   const [buttonActive, setButtonActive] = useState('tab1');
   const isUpdate = Boolean(_id);
-  const { data: item } = useGetApi(detailCourseApi, { _id }, 'course', isUpdate);
+  const item = courses.find(c => c._id === _id)
 
   const handleButtonClick = (value) => {
     if (value === buttonActive) {
@@ -88,21 +85,13 @@ const Detail = () => {
     else return newData;
   };
 
-  const onSuccess = async () => {
-    const courses = await getListCourseInfoApi();
-    if (courses) setCourses(courses);
-  };
-
   return (
     <FormDetail
       type={'normal'}
       title="khóa học"
       isUpdate={isUpdate}
-      insertApi={addCourseApi}
-      updateApi={updateCourseApi}
       handleData={handleData}
       handleSubmit={handleSubmit}
-      onSuccess={onSuccess}
     >
       <TETabs>
         <TETabsItem onClick={() => handleButtonClick('tab1')} active={buttonActive === 'tab1'}>

@@ -5,6 +5,7 @@ import { SigninValidation } from '@lib/validation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+<<<<<<< HEAD
 import { useToastState } from '@store';
 import { usePostApi } from '@lib/react-query';
 import { getInfoApi, signinApi } from '@api';
@@ -16,6 +17,11 @@ const SignIn = () => {
   const { showToast } = useToastState();
   const { setUserInfo, setIsAuthenticated } = useAuthContext();
   const { mutateAsync, isPending } = usePostApi(signinApi);
+=======
+
+const SignIn = () => {
+  const isPending =false
+>>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
 
   const {
     register,
@@ -25,6 +31,7 @@ const SignIn = () => {
     resolver: yupResolver(SigninValidation)
   });
   const onSubmit = async (data) => {
+<<<<<<< HEAD
     const response = await mutateAsync(data);
     if (response) {
       localStorage.setItem('token', response);
@@ -36,6 +43,9 @@ const SignIn = () => {
         navigate('/');
       }
     }
+=======
+
+>>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
   };
 
   return (
