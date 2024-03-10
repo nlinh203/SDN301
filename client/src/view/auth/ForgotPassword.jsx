@@ -6,10 +6,21 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import SendOtpInput from './shared/SendOtpInput';
+import { confirmPasswordApi, sendOtpForgotPasswordApi } from '@api';
+import { usePostApi } from '@lib/react-query';
+import { useNavigate } from 'react-router-dom';
+import { useToastState } from '@store';
+
+const SignIn = () => {
+  const navigate = useNavigate();
+  const { showToast } = useToastState();
+  const [isSend, setIsSend] = useState();
+  const { mutateAsync, isPending } = usePostApi(confirmPasswordApi);
 
 const SignIn = () => {
   const [isSend, setIsSend] = useState();
   const isPending =false
+
 
   const {
     register,

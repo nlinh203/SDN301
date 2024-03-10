@@ -1,6 +1,12 @@
+
 import { SignIn, SignUp, ForgotPassword } from '@view/auth';
 import { DetailCourseWeb, DetailPostWeb, Home, Learning, MyCourses, MyPosts, Personal, WebCourses, WebPosts } from '@view/web';
 import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson, Templates } from '@view/admin';
+
+
+import { SignIn, SignUp, ForgotPassword } from '@view/auth';
+import { Personal} from '@view/web';
+
 
 const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
