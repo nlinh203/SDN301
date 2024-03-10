@@ -1,18 +1,17 @@
-<<<<<<<<< Temporary merge branch 1
+
 import { SignIn, SignUp, ForgotPassword } from '@view/auth';
 import { DetailCourseWeb, DetailPostWeb, Home, Learning, MyCourses, MyPosts, Personal, WebCourses, WebPosts } from '@view/web';
 import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson, Templates } from '@view/admin';
-=========
+
 
 import { SignIn, SignUp, ForgotPassword } from '@view/auth';
 import { Personal} from '@view/web';
->>>>>>>>> Temporary merge branch 2
+
 
 const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
   { path: '/auth/signup', element: SignUp, public: true },
   { path: '/auth/forgot-password', element: ForgotPassword, public: true },
-
 
   { path: '/', element: Home, layout: 'web', public: true },
   { path: '/courses', element: WebCourses, layout: 'web', public: true },

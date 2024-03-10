@@ -22,7 +22,7 @@ const Lesson = ({ courseId, lessonId, setRender }) => {
         <h3 className="text-xl uppercase font-semibold">{data?.title}</h3>
         <Hr />
         <span className="text-sm px-4">
-          Cập nhật tháng {month} năm {year}
+          Cập nhật tháng {month} năm {year}  
         </span>
         <span className="text-sm px-4">{data?.description}</span>
         <Hr />

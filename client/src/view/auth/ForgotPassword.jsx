@@ -17,7 +17,6 @@ const SignIn = () => {
   const [isSend, setIsSend] = useState();
   const { mutateAsync, isPending } = usePostApi(confirmPasswordApi);
 
-
 const SignIn = () => {
   const [isSend, setIsSend] = useState();
   const isPending =false
@@ -32,6 +31,7 @@ const SignIn = () => {
     resolver: yupResolver(ForgotPasswordValidation)
   });
 
+  const onSubmit = async (data) => {
 
   };
 
@@ -50,7 +50,6 @@ const SignIn = () => {
             username={watch('username')}
             isSend={isSend}
             setIsSend={setIsSend}
-
             api={() => {}}
           />
           <div className="flex items-center justify-between">

@@ -29,7 +29,6 @@ const DetailCourseWeb = () => {
   };
 
   const onRegister = async () => {
-
   };
 
   return (

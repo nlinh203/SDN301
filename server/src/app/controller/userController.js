@@ -6,7 +6,21 @@ import { uploadFileToFirebase } from '@lib/firebase';
 import bcrypt from 'bcrypt';
 
 export const getListUser = async (req, res) => {
-  
+  try {
+    const { error, value } = validateData(listUserValid, req.query);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    const { page, limit, keySearch, email, role, status } = value;
+    const where = {};
+    if (keySearch) where.$or = [{ fullName: { $regex: keySearch, $options: 'i' } }, { username: { $regex: keySearch, $options: 'i' } }];
+    if (email) where.email = { $regex: email, $options: 'i' };
+    if (role) where.role = role;
+    if (status || status === 0) where.status = status;
+    const documents = await getListUserMd(where, page, limit);
+    const total = await countListUserMd(where);
+    res.json({ status: true, data: { documents, total } });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
 };
 
 export const getListUserInfo = async (req, res) => {
@@ -95,11 +109,34 @@ export const updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
   }
- 
 };
 
 export const updateUserInfo = async (req, res) => {
-  
+  try {
+    const { error, value } = validateData(updateUserInfoValid, req.body);
+    if (error) return res.status(400).json({ status: false, mess: error });
+    let { username, fullName, email, bio, address, avatar } = value;
+
+    if (email) {
+      const checkEmail = await getDetailUserMd({ email });
+      if (checkEmail) return res.status(400).json({ status: false, mess: 'Email đã tồn tại!' });
+    }
+
+    if (username) {
+      const checkUsername = await getDetailUserMd({ username });
+      if (checkUsername) return res.status(400).json({ status: false, mess: 'Tài khoản đã tồn tại!' });
+    }
+
+    if (req.file) {
+      avatar = await uploadFileToFirebase(req.file);
+    }
+
+    const attr = { username, fullName, email, bio, address, avatar };
+    const data = await updateUserMd({ _id: req.userInfo._id }, attr);
+    res.status(201).json({ status: true, data });
+  } catch (error) {
+    res.status(500).json({ status: false, mess: error.toString() });
+  }
 };
 
 export const changePassword = async (req, res) => {
