@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 const ChangePassword = () => {
   const { setUserInfo, setIsAuthenticated } = useAuthContext();
   const { showToast } = useToastState();
-  const isPending = false;
+  const isPending = false
 
   const {
     register,
@@ -21,18 +21,12 @@ const ChangePassword = () => {
     resolver: yupResolver(ChangePasswordValidation),
     defaultValues: {
       password: '',
-      newPassword: '',
-      confirmPassword: '' // Thêm trường xác nhận mật khẩu vào giá trị mặc định
+      newPassword: ''
     }
   });
 
   const onSubmit = async (data) => {
-    const { password, newPassword, confirmPassword } = data;
-    if (newPassword !== confirmPassword) {
-      // Hiển thị thông báo lỗi xác nhận mật khẩu không khớp
-      return;
-    }
-    // Tiếp tục xử lý gửi biểu mẫu
+
   };
 
   return (
@@ -62,15 +56,6 @@ const ChangePassword = () => {
             className="!w-full my-1"
             id="newPassword"
             label="Mật khẩu mới (*)"
-            type="password"
-            register={register}
-            errors={errors}
-            required 
-          />
-          <InputFormDetail
-            className="!w-full my-1"
-            id="confirmPassword"
-            label="Xác nhận mật khẩu (*)"
             type="password"
             register={register}
             errors={errors}

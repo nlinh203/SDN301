@@ -142,10 +142,7 @@ const Post = ({ item, type, setRender = () => {}, setShow = () => {} }) => {
       </div>
     </div>
   );
-<<<<<<< HEAD
   
-=======
->>>>>>> main
 };
 
 export default Post;
