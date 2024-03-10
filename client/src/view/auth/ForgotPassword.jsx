@@ -17,11 +17,6 @@ const SignIn = () => {
   const [isSend, setIsSend] = useState();
   const { mutateAsync, isPending } = usePostApi(confirmPasswordApi);
 
-const SignIn = () => {
-  const [isSend, setIsSend] = useState();
-  const isPending =false
-
-
   const {
     register,
     handleSubmit,
@@ -32,7 +27,11 @@ const SignIn = () => {
   });
 
   const onSubmit = async (data) => {
-
+    const response = await mutateAsync(data);
+    if (response) {
+      showToast({ title: 'Đổi mật khẩu thành công', severity: 'success' });
+      navigate('/auth/signin');
+    }
   };
 
   return (
@@ -50,7 +49,7 @@ const SignIn = () => {
             username={watch('username')}
             isSend={isSend}
             setIsSend={setIsSend}
-            api={() => {}}
+            api={sendOtpForgotPasswordApi}
           />
           <div className="flex items-center justify-between">
             <CheckBox id="remember" label="Đồng ý điều khoản và dịch vụ" />

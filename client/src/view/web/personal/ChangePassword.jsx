@@ -1,7 +1,7 @@
 import { Loading } from '@components/base';
 import { InputFormDetail } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
-import { INITIAL_USER_INFO, useAuthContext } from '@context/AuthContext';
+import { useAuthContext } from '@context/AuthContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangePasswordValidation } from '@lib/validation';
 import { useToastState } from '@store';
@@ -11,7 +11,7 @@ import { useForm } from 'react-hook-form';
 const ChangePassword = () => {
   const { setUserInfo, setIsAuthenticated } = useAuthContext();
   const { showToast } = useToastState();
-  const isPending = false
+  const isPending = false;
 
   const {
     register,
@@ -21,12 +21,18 @@ const ChangePassword = () => {
     resolver: yupResolver(ChangePasswordValidation),
     defaultValues: {
       password: '',
-      newPassword: ''
+      newPassword: '',
+      confirmPassword: '' // Thêm trường xác nhận mật khẩu vào giá trị mặc định
     }
   });
 
   const onSubmit = async (data) => {
-
+    const { password, newPassword, confirmPassword } = data;
+    if (newPassword !== confirmPassword) {
+      // Hiển thị thông báo lỗi xác nhận mật khẩu không khớp
+      return;
+    }
+    // Tiếp tục xử lý gửi biểu mẫu
   };
 
   return (
@@ -50,6 +56,7 @@ const ChangePassword = () => {
             type="password"
             register={register}
             errors={errors}
+            required 
           />
           <InputFormDetail
             className="!w-full my-1"
@@ -58,6 +65,16 @@ const ChangePassword = () => {
             type="password"
             register={register}
             errors={errors}
+            required 
+          />
+          <InputFormDetail
+            className="!w-full my-1"
+            id="confirmPassword"
+            label="Xác nhận mật khẩu (*)"
+            type="password"
+            register={register}
+            errors={errors}
+            required 
           />
         </div>
       </div>
