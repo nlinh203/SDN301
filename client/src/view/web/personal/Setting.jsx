@@ -17,7 +17,7 @@ const Setting = () => {
       <Hr />
       <div className="card my-2 flex flex-col gap-4">
         <div className="flex justify-between">
-          <p>Nhắc đến trong bình luận</p>
+          <p>Nhắc đến bạn trong bình luận</p>
           <Switch />
         </div>
         <Hr />

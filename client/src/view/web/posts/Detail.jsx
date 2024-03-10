@@ -1,5 +1,7 @@
+import { detailPostWebApi, getInfoApi, getListCommentApi, likePostApi, savePostApi } from '@api';
 import { Comments } from '@components/extend';
 import { Hr } from '@components/uiCore';
+import { useGetApi } from '@lib/react-query';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -8,15 +10,16 @@ import { BiHeart } from 'react-icons/bi';
 import { useConfirmState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
 import { RoleTitle } from '@components/base';
-import {comments, posts} from "../../../data";
 
 const DetailPostWeb = () => {
   const navigate = useNavigate();
   const { slug } = useParams();
   const { userInfo, isAuthenticated, setUserInfo } = useAuthContext();
   const { showConfirm } = useConfirmState();
+  const [render, setRender] = useState(false);
   const [renderComment, setRenderComment] = useState(false);
-  const data = posts.find(p => p.slug === slug)
+  const { data } = useGetApi(detailPostWebApi, { slug, render }, 'post');
+  const { data: comments } = useGetApi(getListCommentApi, { objectId: data?._id, type: 1, render: renderComment }, 'comments', Boolean(data?._id));
 
   const onWarning = async () => {
     showConfirm({
@@ -26,11 +29,21 @@ const DetailPostWeb = () => {
   };
 
   const onLikePost = async () => {
-
+    if (!isAuthenticated) return onWarning();
+    const response = await likePostApi({ _id: data?._id });
+    if (response) setRender((pre) => !pre);
   };
 
   const onSavePost = async () => {
-
+    if (!isAuthenticated) return onWarning();
+    const response = await savePostApi({ _id: data?._id });
+    if (response) {
+      const response = await getInfoApi();
+      if (response) {
+        setUserInfo(response);
+        setRender((pre) => !pre);
+      } else localStorage.removeItem('token');
+    }
   };
 
   return (

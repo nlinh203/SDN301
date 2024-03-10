@@ -1,7 +1,7 @@
 import { Loading } from '@components/base';
 import { InputFormDetail } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
-import { INITIAL_USER_INFO, useAuthContext } from '@context/AuthContext';
+import { useAuthContext } from '@context/AuthContext';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ChangePasswordValidation } from '@lib/validation';
 import { useToastState } from '@store';
@@ -50,6 +50,7 @@ const ChangePassword = () => {
             type="password"
             register={register}
             errors={errors}
+            required 
           />
           <InputFormDetail
             className="!w-full my-1"
@@ -58,6 +59,7 @@ const ChangePassword = () => {
             type="password"
             register={register}
             errors={errors}
+            required 
           />
         </div>
       </div>
