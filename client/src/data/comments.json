@@ -1,0 +1,38 @@
+[
+  {
+    "_id": {"$oid": "65db217e7408538c1e4cc930"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "1",
+    "createdAt": {"$date": "2024-02-25T11:16:14.304Z"},
+    "likes": [],
+    "objectId": "65d36bde4697cd06a2b51ff4",
+    "status": 0,
+    "type": 1,
+    "updatedAt": {"$date": "2024-02-25T11:16:14.304Z"}
+  },
+  {
+    "_id": {"$oid": "65db21817408538c1e4cc93f"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "2",
+    "createdAt": {"$date": "2024-02-25T11:16:17.686Z"},
+    "likes": [],
+    "objectId": "65d36bde4697cd06a2b51ff4",
+    "status": 0,
+    "type": 1,
+    "updatedAt": {"$date": "2024-02-25T11:16:17.686Z"}
+  },
+  {
+    "_id": {"$oid": "65db21857408538c1e4cc94f"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "3",
+    "createdAt": {"$date": "2024-02-25T11:16:21.846Z"},
+    "likes": [],
+    "objectId": "65d36bde4697cd06a2b51ff4",
+    "status": 0,
+    "type": 1,
+    "updatedAt": {"$date": "2024-02-25T11:16:21.846Z"}
+  }
+]

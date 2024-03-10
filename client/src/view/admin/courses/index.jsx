@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import { deleteCourseApi, getListCourseApi, getListCourseInfoApi, updateCourseApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { courseType, statuses } from '@constant';
 import { useGetParams } from '@hook';
-import { useGetApi } from '@lib/react-query';
 import { DataFilter, FormList, NumberBody, TimeBody } from '@components/base';
 import { useNavigate } from 'react-router-dom';
 import { useDataState } from '@store';
 import { Link } from '@components/uiCore';
+import {courses} from "../../../data";
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -58,27 +57,18 @@ const Courses = () => {
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];
 
-  const { isLoading, data } = useGetApi(getListCourseApi, params, 'courses');
-
-  const onSuccess = async () => {
-    const courses = await getListCourseInfoApi();
-    if (courses) setCourses(courses);
-  };
-
   return (
     <FormList
-      isLoading={isLoading}
       title="Quản lý khóa học"
-      data={data?.documents}
-      totalRecord={data?.total}
+      data={courses}
+      totalRecord={courses?.length}
       columns={columns}
       params={params}
       setParams={setParams}
       baseActions={['insert', 'detail', 'delete']}
-      actionsInfo={{ onViewDetail: (item) => navigate(`/admin/courses/detail/${item._id}`), deleteApi: deleteCourseApi }}
-      statusInfo={{ changeStatusApi: updateCourseApi }}
+      actionsInfo={{ onViewDetail: (item) => navigate(`/admin/courses/detail/${item._id}`) }}
+      statusInfo={{  }}
       headerInfo={{ onInsert: () => navigate('/admin/courses/insert') }}
-      onSuccess={onSuccess}
     >
       <Filter setParams={setParams} />
     </FormList>

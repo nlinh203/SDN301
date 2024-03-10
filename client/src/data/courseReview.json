@@ -1,0 +1,25 @@
+[
+  {
+    "_id": {"$oid": "65d36b674697cd06a2b51f92"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "Ổn",
+    "courseId": {"$oid": "65d36aea4697cd06a2b51eb2"},
+    "createdAt": {"$date": "2024-02-19T14:53:27.147Z"},
+    "file": "https://storage.googleapis.com/coursera-replica.appspot.com/images/1708354406511.jpg",
+    "likes": [],
+    "rating": 5,
+    "updatedAt": {"$date": "2024-02-19T14:53:27.147Z"}
+  },
+  {
+    "_id": {"$oid": "65db21627408538c1e4cc908"},
+    "__v": 0,
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "content": "ok",
+    "courseId": {"$oid": "65d9ddb442380a9159d35912"},
+    "createdAt": {"$date": "2024-02-25T11:15:46.677Z"},
+    "likes": [],
+    "rating": 5,
+    "updatedAt": {"$date": "2024-02-25T11:15:46.677Z"}
+  }
+]

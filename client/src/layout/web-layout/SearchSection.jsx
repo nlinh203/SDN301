@@ -1,13 +1,11 @@
-import { getListSearchApi } from '@api';
 import { Hr } from '@components/uiCore';
-import { useGetApi } from '@lib/react-query';
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { TERipple } from 'tw-elements-react';
+import {courses, posts} from "../../data";
 
 const SearchSection = () => {
   const [value, setValue] = useState('');
-  const { data } = useGetApi(getListSearchApi, { keySearch: value }, 'search', Boolean(value));
 
   const ref = useRef(null);
   const [isShow, setIsShow] = useState(false);
@@ -60,16 +58,16 @@ const SearchSection = () => {
         className={`absolute w-full right-0 mt-12 bg-white shadow-xl rounded-md transition-all z-50 duration-300 ease-in-out transform ${isShow ? 'translate-y-0 opacity-100' : '-translate-y-4 opacity-0 pointer-events-none'}`}
       >
         <div className="p-4 flex flex-col gap-1">
-          {data?.courses?.length > 0 || data?.posts?.length > 0 ? (
+          {courses?.length > 0 || posts?.length > 0 ? (
             <>
               <p>Kết quả tìm kiếm cho '{value}'</p>
               <Hr />
-              {data?.courses?.length > 0 && (
+              {courses?.length > 0 && (
                 <>
                   <p className="uppercase font-medium mt-2">Khóa học</p>
                   <Hr />
                   <div className="flex flex-col gap-2">
-                    {data.courses.map((item, index) => {
+                    {courses.splice(0, 4).map((item, index) => {
                       return (
                         <Link
                           key={index}
@@ -90,12 +88,12 @@ const SearchSection = () => {
                 </>
               )}
 
-              {data?.posts?.length > 0 && (
+              {posts?.length > 0 && (
                 <>
                   <p className="uppercase font-medium mt-2">Bài viết</p>
                   <Hr />
                   <div className="flex flex-col gap-2">
-                    {data.posts.map((item, index) => {
+                    {posts.splice(0, 4).map((item, index) => {
                       return (
                         <Link
                           key={index}

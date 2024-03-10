@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { getListCommentLessonApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { commentStatus } from '@constant';
 import { useGetParams } from '@hook';
-import { useGetApi } from '@lib/react-query';
 import { DataFilter, DataTable, RoleTitle, TimeBody } from '@components/base';
 
 const Filter = ({ setParams }) => {
@@ -47,15 +45,12 @@ const CommentLessons = () => {
     { label: 'Thời gian tạo', body: (item) => TimeBody(item.createdAt) }
   ];
 
-  const { isLoading, data } = useGetApi(getListCommentLessonApi, params, 'commentLessonApi');
-
   return (
     <>
       <Filter setParams={setParams} />
       <DataTable
-        isLoading={isLoading}
-        data={data?.documents}
-        totalRecord={data?.total}
+        data={[]}
+        totalRecord={0}
         columns={columns}
         params={params}
         setParams={setParams}

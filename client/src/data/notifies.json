@@ -1,0 +1,58 @@
+[
+  {
+    "_id": {"$oid": "65d9df0a42380a9159d35afa"},
+    "__v": 0,
+    "content": "bạn đã đăng ký khóa học \"Lập Trình JavaScript Nâng Cao\"",
+    "createdAt": {"$date": "2024-02-24T12:20:26.472Z"},
+    "fromBy": 1,
+    "objectId": {"$oid": "65d9ddb442380a9159d35912"},
+    "status": 1,
+    "to": "65d367864697cd06a2b51cc6",
+    "type": 4,
+    "updatedAt": {"$date": "2024-02-24T12:29:14.068Z"}
+  },
+  {
+    "_id": {"$oid": "65d9e04642380a9159d35d62"},
+    "__v": 0,
+    "content": "đã bày tỏ cảm xúc về bài viết của bạn",
+    "createdAt": {"$date": "2024-02-24T12:25:42.627Z"},
+    "fromBy": 2,
+    "objectId": {"$oid": "65d9e02a42380a9159d35d13"},
+    "status": 1,
+    "to": "65d367864697cd06a2b51cc6",
+    "type": 1,
+    "updatedAt": {"$date": "2024-02-24T12:29:14.068Z"},
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "data": {
+      "slug": "1708777514830-authentication-&-authorization-trong-reactjs"
+    }
+  },
+  {
+    "_id": {"$oid": "65db1fbd7408538c1e4cc60a"},
+    "__v": 0,
+    "content": "bạn đã đăng ký khóa học \"Node & ExpressJS\"",
+    "createdAt": {"$date": "2024-02-25T11:08:45.511Z"},
+    "fromBy": 1,
+    "objectId": {"$oid": "65da177d90acc95dd805f158"},
+    "status": 0,
+    "to": "65d367864697cd06a2b51cc6",
+    "type": 4,
+    "updatedAt": {"$date": "2024-02-25T11:08:45.511Z"}
+  },
+  {
+    "_id": {"$oid": "65db21757408538c1e4cc91e"},
+    "__v": 0,
+    "content": "đã bày tỏ cảm xúc về bài viết của bạn",
+    "createdAt": {"$date": "2024-02-25T11:16:05.647Z"},
+    "fromBy": 2,
+    "objectId": {"$oid": "65d36bde4697cd06a2b51ff4"},
+    "status": 0,
+    "to": "65d367864697cd06a2b51cc6",
+    "type": 1,
+    "updatedAt": {"$date": "2024-02-25T11:16:05.647Z"},
+    "by": {"$oid": "65d367864697cd06a2b51cc6"},
+    "data": {
+      "slug": "1708354526203-authentication-&-authorization-trong-reactjs"
+    }
+  }
+]

@@ -3,13 +3,11 @@ import { PostValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { addPostApi, detailPostApi, getInfoApi, updatePostApi } from '@api';
 import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
 import Editor from '@components/uiCore/Editor';
-import { useAuthContext } from '@context/AuthContext';
-import { useGetApi } from '@lib/react-query';
 import { postType } from '@constant';
+import {posts} from "../../../data";
 
 const defaultValues = {
   title: '',
@@ -21,11 +19,10 @@ const defaultValues = {
 };
 
 const DetailPost = (props) => {
-  const { setUserInfo } = useAuthContext();
   const { show, setShow, setParams = () => {}, mode = 'web' } = props;
   const [image, setImage] = useState(null);
   const isUpdate = typeof show === 'string';
-  const { data: item } = useGetApi(detailPostApi, { _id: show }, 'post', isUpdate);
+  const item = posts.find(p => p._id === show)
 
   const {
     register,
@@ -59,13 +56,6 @@ const DetailPost = (props) => {
     else return newData;
   };
 
-  const onSuccess = async () => {
-    const response = await getInfoApi();
-    if (response) {
-      setUserInfo(response);
-    } else localStorage.removeItem('token');
-  };
-
   return (
     <FormDetail
       title="bài viết"
@@ -76,12 +66,9 @@ const DetailPost = (props) => {
         setImage(null);
       }}
       isUpdate={isUpdate}
-      insertApi={addPostApi}
-      updateApi={updatePostApi}
       handleData={handleData}
       handleSubmit={handleSubmit}
       setParams={setParams}
-      onSuccess={onSuccess}
     >
       <div className="flex flex-wrap text-left">
         <div className="w-4/12 p-2">
