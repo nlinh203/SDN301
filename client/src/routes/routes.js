@@ -1,20 +1,18 @@
-<<<<<<< HEAD
-
-import { SignIn, SignUp, ForgotPassword } from '@view/auth';
-import { Personal} from '@view/web';
-=======
+<<<<<<<<< Temporary merge branch 1
 import { SignIn, SignUp, ForgotPassword } from '@view/auth';
 import { DetailCourseWeb, DetailPostWeb, Home, Learning, MyCourses, MyPosts, Personal, WebCourses, WebPosts } from '@view/web';
 import { Courses, Lessons, Questions, Posts, Users, Dashboard, Feedbacks, Log, DetailCourse, DetailLesson, Templates } from '@view/admin';
->>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
+=========
+
+import { SignIn, SignUp, ForgotPassword } from '@view/auth';
+import { Personal} from '@view/web';
+>>>>>>>>> Temporary merge branch 2
 
 const routes = [
   { path: '/auth/signin', element: SignIn, public: true },
   { path: '/auth/signup', element: SignUp, public: true },
   { path: '/auth/forgot-password', element: ForgotPassword, public: true },
-<<<<<<< HEAD
-  { path: '/personal', element: Personal, layout: 'web', public: true },
-=======
+
 
   { path: '/', element: Home, layout: 'web', public: true },
   { path: '/courses', element: WebCourses, layout: 'web', public: true },
@@ -39,7 +37,6 @@ const routes = [
   { path: '/admin/log', element: Log, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/templates', element: Templates, layout: 'admin', roles: ['staff', 'admin'] },
   { path: '/admin/users', element: Users, layout: 'admin', roles: ['admin'] }
->>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
 ];
 
 export default routes;

@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import SendOtpInput from './shared/SendOtpInput';
-<<<<<<< HEAD
 import { confirmPasswordApi, sendOtpForgotPasswordApi } from '@api';
 import { usePostApi } from '@lib/react-query';
 import { useNavigate } from 'react-router-dom';
@@ -17,12 +16,12 @@ const SignIn = () => {
   const { showToast } = useToastState();
   const [isSend, setIsSend] = useState();
   const { mutateAsync, isPending } = usePostApi(confirmPasswordApi);
-=======
+
 
 const SignIn = () => {
   const [isSend, setIsSend] = useState();
   const isPending =false
->>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
+
 
   const {
     register,
@@ -33,16 +32,7 @@ const SignIn = () => {
     resolver: yupResolver(ForgotPasswordValidation)
   });
 
-  const onSubmit = async (data) => {
-<<<<<<< HEAD
-    const response = await mutateAsync(data);
-    if (response) {
-      showToast({ title: 'Đổi mật khẩu thành công', severity: 'success' });
-      navigate('/auth/signin');
-    }
-=======
 
->>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
   };
 
   return (
@@ -60,11 +50,8 @@ const SignIn = () => {
             username={watch('username')}
             isSend={isSend}
             setIsSend={setIsSend}
-<<<<<<< HEAD
-            api={sendOtpForgotPasswordApi}
-=======
+
             api={() => {}}
->>>>>>> 9bc9826c4a3240fbcd8d0b707d37a1e31749c49d
           />
           <div className="flex items-center justify-between">
             <CheckBox id="remember" label="Đồng ý điều khoản và dịch vụ" />
