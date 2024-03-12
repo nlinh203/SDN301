@@ -1,6 +1,6 @@
 import { countListQuestionMd, getListLessonMd, getListQuestionMd } from '@models';
 
-export const getListQuestionRepo = async (value) => {
+ const getListQuestionRepo = async (value) => {
   const { page, limit, keySearch, status, courseId, lessonId } = value;
   const where = {};
   let lessonIds = [];
@@ -19,3 +19,4 @@ export const getListQuestionRepo = async (value) => {
   const total = await countListQuestionMd(where);
   return { status: true, data: { documents, total } };
 };
+export default getListQuestionRepo;

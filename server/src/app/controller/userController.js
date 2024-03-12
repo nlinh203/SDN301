@@ -1,5 +1,6 @@
 import { addUserValid, changePasswordValid, detailUserValid, listUserValid, updateUserInfoValid, updateUserValid } from '@lib/validation';
-import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUserMd } from '@models';
+import { countListUser, deleteUser, getDetailUser, getListUser, updateUser } from '@models';
+// import { countListUserMd, deleteUserMd, getDetailUserMd, getListUserMd, updateUserMd } from '@models';/''
 import { createUserRp } from '@repository';
 import { validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
@@ -16,7 +17,8 @@ export const getListUser = async (req, res) => {
     if (role) where.role = role;
     if (status || status === 0) where.status = status;
     const documents = await getListUserMd(where, page, limit);
-    const total = await countListUserMd(where);
+    // const total = await countListUserMd(where);
+    const total = await countListUser(where);
     res.json({ status: true, data: { documents, total } });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -25,7 +27,8 @@ export const getListUser = async (req, res) => {
 
 export const getListUserInfo = async (req, res) => {
   try {
-    const data = await getListUserMd({ status: 1 });
+    // const data = await getListUserMd({ status: 1 });
+    const data = await getListUser({ status: 1 });
     res.json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -37,7 +40,8 @@ export const detailUser = async (req, res) => {
     const { error, value } = validateData(detailUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = value;
-    const data = await getDetailUserMd({ _id });
+    // const data = await getDetailUserMd({ _id });
+    const data = await getDetailUser({ _id });
     if (!data) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
     res.json({ status: true, data });
   } catch (error) {
@@ -50,7 +54,8 @@ export const deleteUser = async (req, res) => {
     const { error, value } = validateData(detailUserValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { _id } = value;
-    const data = await deleteUserMd({ _id });
+    // const data = await deleteUserMd({ _id });
+    const data = await deleteUser({ _id });
     if (!data) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
     res.status(201).json({ status: true, data });
   } catch (error) {
@@ -81,16 +86,18 @@ export const updateUser = async (req, res) => {
     if (error) return res.status(400).json({ status: false, mess: error });
     let { _id, fullName, username, email, password, bio, address, status, role, avatar } = value;
 
-    const user = await getDetailUserMd({ _id });
+    const user = await getDetailUser({ _id });
     if (!user) return res.status(400).json({ status: false, mess: 'Người dùng không tồn tại!' });
 
     if (email) {
-      const checkEmail = await getDetailUserMd({ email });
+      // const checkEmail = await getDetailUserMd({ email });
+      const checkEmail = await getDetailUser({ email });
       if (checkEmail) return res.status(400).json({ status: false, mess: 'Email đã tồn tại!' });
     }
 
     if (username) {
-      const checkUsername = await getDetailUserMd({ username });
+      // const checkUsername = await getDetailUserMd({ username });
+      const checkUsername = await getDetailUser({ username });
       if (checkUsername) return res.status(400).json({ status: false, mess: 'Username đã tồn tại!' });
     }
 
@@ -104,7 +111,8 @@ export const updateUser = async (req, res) => {
       attr.password = await bcrypt.hash(password, salt);
     }
 
-    const data = await updateUserMd({ _id }, attr);
+    // const data = await updateUserMd({ _id }, attr);
+    const data = await updateUser({ _id }, attr);
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -118,11 +126,13 @@ export const updateUserInfo = async (req, res) => {
     let { username, fullName, email, bio, address, avatar } = value;
 
     if (email) {
-      const checkEmail = await getDetailUserMd({ email });
+      // const checkEmail = await getDetailUserMd({ email });
+      const checkEmail = await getDetailUser({ email });
       if (checkEmail) return res.status(400).json({ status: false, mess: 'Email đã tồn tại!' });
     }
 
     if (username) {
+      // const checkUsername = await getDetailUser({ username });
       const checkUsername = await getDetailUserMd({ username });
       if (checkUsername) return res.status(400).json({ status: false, mess: 'Tài khoản đã tồn tại!' });
     }
@@ -150,7 +160,8 @@ export const changePassword = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(value.newPassword, salt);
 
-    const data = await updateUserMd({ _id: req.userInfo._id }, { password, token: '' });
+    // const data = await updateUserMd({ _id: req.userInfo._id }, { password, token: '' });
+    const data = await updateUser({ _id: req.userInfo._id }, { password, token: '' });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

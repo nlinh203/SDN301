@@ -37,7 +37,8 @@ UserMd.init('User', {
   deletedAt: { type: Date }
 });
 
-export const getListUserMd = (where, page, limit, populates, sort, attr) => {
+// export const getListUserMd = (where, page, limit, populates, sort, attr) => {
+export const getListUser = (where, page, limit, populates, sort, attr) => {
   return UserMd.find({ where, page, limit, sort, attr, populates });
 };
 
@@ -45,18 +46,22 @@ export const countListUserMd = (where) => {
   return UserMd.count({ where });
 };
 
-export const getDetailUserMd = (where, populates, attr) => {
+// export const getDetailUserMd = (where, populates, attr) => {
+export const getDetailUser = (where, populates, attr) => {
   return UserMd.findOne({ where, attr, populates });
 };
 
-export const addUserMd = (attr) => {
+// export const addUserMd = (attr) => {
+export const addUser = (attr) => {
   return UserMd.create({ attr });
 };
 
-export const updateUserMd = (where, attr) => {
+// export const updateUserMd = (where, attr) => {
+export const updateUser = (where, attr) => {
   return UserMd.update({ where, attr });
 };
 
-export const deleteUserMd = (where) => {
+// export const deleteUserMd = (where) => {
+export const deleteUser = (where) => {
   return UserMd.delete({ where });
 };
