@@ -3,13 +3,15 @@ import { LessonValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { addLessonApi, detailLessonApi, getListLessonApi, getListLessonInfoApi, updateLessonApi } from '@api';
 import { FormDetail } from '@components/base';
 import { checkEqualProp } from '@utils';
+import { useGetApi } from '@lib/react-query';
 import { useParams } from 'react-router-dom';
 import { TETabs, TETabsContent, TETabsItem, TETabsPane } from 'tw-elements-react';
 import Questions from '@view/admin/lessons/Questions';
+import { useDataState } from '@store';
 import DetailQuestion from '@view/admin/questions/Detail';
-import {courses, lessons} from "../../../data";
 
 const defaultValues = {
   courseId: '',
@@ -23,12 +25,15 @@ const defaultValues = {
 };
 
 const DetailLesson = () => {
+  const { setLessons } = useDataState();
   const { _id } = useParams();
   const [buttonActive, setButtonActive] = useState('tab1');
   const [files, setFiles] = useState([]);
+  const [params, setParams] = useState({ _id, render: false });
   const [show, setShow] = useState(false);
+  const { courses, lessons } = useDataState();
   const isUpdate = Boolean(_id);
-  const item = lessons.find(l => l._id === _id)
+  const { data: item, isLoading } = useGetApi(detailLessonApi, params, 'lesson', isUpdate);
 
   const handleButtonClick = (value) => {
     if (value === buttonActive) {
@@ -75,11 +80,17 @@ const DetailLesson = () => {
     else return newData;
   };
 
+  const onSuccess = async () => {
+    const lessons = await getListLessonInfoApi();
+    if (lessons) setLessons(lessons);
+  };
+
   return (
     <>
       <DetailQuestion
         show={show}
         setShow={setShow}
+        setParams={setParams}
         data={isUpdate && item?.questions}
         lessons={lessons}
         lessonId={_id}
@@ -88,8 +99,11 @@ const DetailLesson = () => {
         type={'normal'}
         title="bài giảng"
         isUpdate={isUpdate}
+        insertApi={addLessonApi}
+        updateApi={updateLessonApi}
         handleData={handleData}
         handleSubmit={handleSubmit}
+        onSuccess={onSuccess}
       >
         <TETabs>
           <TETabsItem onClick={() => handleButtonClick('tab1')} active={buttonActive === 'tab1'}>
@@ -126,7 +140,7 @@ const DetailLesson = () => {
             </div>
           </TETabsPane>
           <TETabsPane show={buttonActive === 'tab2'}>
-            <Questions data={isUpdate && item?.questions} setShow={setShow} />
+            <Questions data={isUpdate && item?.questions} isLoading={isLoading} setShow={setShow} />
           </TETabsPane>
         </TETabsContent>
       </FormDetail>

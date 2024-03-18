@@ -5,9 +5,17 @@ import { SigninValidation } from '@lib/validation';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useToastState } from '@store';
+import { usePostApi } from '@lib/react-query';
+import { getInfoApi, signinApi } from '@api';
+import { useAuthContext } from '@context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
-  const isPending =false
+  const navigate = useNavigate();
+  const { showToast } = useToastState();
+  const { setUserInfo, setIsAuthenticated } = useAuthContext();
+  const { mutateAsync, isPending } = usePostApi(signinApi);
 
   const {
     register,
@@ -17,7 +25,17 @@ const SignIn = () => {
     resolver: yupResolver(SigninValidation)
   });
   const onSubmit = async (data) => {
-
+    const response = await mutateAsync(data);
+    if (response) {
+      localStorage.setItem('token', response);
+      const res = await getInfoApi();
+      if (res) {
+        setUserInfo(res);
+        setIsAuthenticated(true);
+        showToast({ title: 'Đăng nhập thành công', severity: 'success' });
+        navigate('/');
+      }
+    }
   };
 
   return (

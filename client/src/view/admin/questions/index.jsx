@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
+import {deleteQuestionApi, exportQuestionApi, getListQuestionApi, updateQuestionApi} from '@api';
 import {InputFormV2, SelectFormV2} from '@components/form';
 import {useGetParams} from '@hook';
+import {useGetApi} from '@lib/react-query';
 import DetailQuestion from './Detail';
 import {DataFilter, FormList, TimeBody} from '@components/base';
+import {useDataState} from '@store';
 import {Link} from "@components/uiCore";
 import ImportQuestion from "@view/admin/questions/ImportQuestion";
-import {courses, lessons, questions} from "../../../data";
 
 const Filter = ({setParams, courses, lessons = []}) => {
     const [filter, setFilter] = useState({});
@@ -41,6 +43,7 @@ const Filter = ({setParams, courses, lessons = []}) => {
 const Questions = () => {
     const initParams = useGetParams();
     const [params, setParams] = useState(initParams);
+    const {courses, lessons} = useDataState();
     const [show, setShow] = useState(false);
     const [showImport, setShowImport] = useState(false);
 
@@ -75,22 +78,25 @@ const Questions = () => {
         {label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt)}
     ];
 
+    const {isLoading, data} = useGetApi(getListQuestionApi, params, 'questions');
+
     return (
         <>
             <ImportQuestion show={showImport} setShow={setShowImport} setParams={setParams} />
-            <DetailQuestion show={show} setShow={setShow} setParams={setParams} data={questions}
+            <DetailQuestion show={show} setShow={setShow} setParams={setParams} data={data?.documents}
                             lessons={lessons}/>
             <FormList
+                isLoading={isLoading}
                 title="Quản lý câu hỏi"
-                data={questions}
-                totalRecord={questions.length}
+                data={data?.documents}
+                totalRecord={data?.total}
                 columns={columns}
                 params={params}
                 setParams={setParams}
                 baseActions={['insert', 'detail', 'delete', 'import', 'export']}
-                actionsInfo={{onViewDetail: (item) => setShow(item._id)}}
-                statusInfo={{changeStatusApi: () => {}}}
-                headerInfo={{onInsert: () => setShow(true), onImport: () => setShowImport(true), exportApi: () => {} }}
+                actionsInfo={{onViewDetail: (item) => setShow(item._id), deleteApi: deleteQuestionApi}}
+                statusInfo={{changeStatusApi: updateQuestionApi}}
+                headerInfo={{onInsert: () => setShow(true), onImport: () => setShowImport(true), exportApi: exportQuestionApi }}
             ><Filter setParams={setParams} courses={courses} lessons={lessons}/></FormList>
         </>
     );

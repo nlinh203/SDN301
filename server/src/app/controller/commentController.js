@@ -1,6 +1,6 @@
 import { NOTI_CONTENT } from '@constant';
 import { uploadFileToFirebase } from '@lib/firebase';
-import { addCommentValid, deleteCommentValid, listCommentLessonValid, listCommentValid } from '@lib/validation'; 
+import { addCommentValid, deleteCommentValid, listCommentLessonValid, listCommentValid } from '@lib/validation';
 import {
   addCommentMd,
   addNotifyMd,
@@ -71,10 +71,10 @@ export const addComment = async (req, res) => {
     const data = await addCommentMd({ by: req.userInfo._id, type, objectId, parentId, content, file, status: 0 });
     if (type === 1) {
       const post = await getDetailPostMd({ _id: objectId });
-      const attr = { fromBy: 2, by: req.userInfo._id, fullName: post.by?.fullName, objectId, data: { slug: post.slug } }; 
-      if (parentId) { 
-        const comment = await getDetailCommentMd({ _id: parentId }); 
-        if (String(req.userInfo._id) !== String(comment.by)) { 
+      const attr = { fromBy: 2, by: req.userInfo._id, fullName: post.by?.fullName, objectId, data: { slug: post.slug } };
+      if (parentId) {
+        const comment = await getDetailCommentMd({ _id: parentId });
+        if (String(req.userInfo._id) !== String(comment.by)) {
           attr.data._id = parentId;
           await addNotifyRp({
             ...attr,

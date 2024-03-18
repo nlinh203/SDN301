@@ -1,13 +1,14 @@
+import { detailLessonRegisterApi } from '@api';
 import { UploadFiles } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
+import { useGetApi } from '@lib/react-query';
 import React, { useState } from 'react';
 import ReactPlayer from 'react-player';
 import { BiSolidHeart } from 'react-icons/bi';
 import AnswerQuestion from './AnswerQuestion';
-import {lessons} from "../../../data";
 
 const Lesson = ({ courseId, lessonId, setRender }) => {
-  const data = lessons.find(l => l._id === lessonId)
+  const { data } = useGetApi(detailLessonRegisterApi, { lessonId, courseId }, 'lesson', Boolean(courseId && lessonId));
   const [show, setShow] = useState()
   const date = new Date(data?.updatedAt);
   const month = date.getMonth() + 1;
@@ -22,7 +23,7 @@ const Lesson = ({ courseId, lessonId, setRender }) => {
         <h3 className="text-xl uppercase font-semibold">{data?.title}</h3>
         <Hr />
         <span className="text-sm px-4">
-          Cập nhật tháng {month} năm {year}  
+          Cập nhật tháng {month} năm {year}
         </span>
         <span className="text-sm px-4">{data?.description}</span>
         <Hr />

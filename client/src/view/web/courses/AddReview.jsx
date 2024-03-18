@@ -12,7 +12,7 @@ const AddReview = (props) => {
 
   const { handleSubmit, watch, setValue, reset } = useForm({
     defaultValues: { content: '' }
-  }); 
+  });
 
   const handleData = (data) => {
     const newData = { ...data, rating, courseId };
@@ -44,7 +44,7 @@ const AddReview = (props) => {
         <TextAreaForm id="content" label="Nội dung" className="w-full p-2" watch={watch} setValue={setValue} />
         <UploadFiles label="File đính kèm" files={file} setFiles={setFile} max={1} />
       </div>
-    </FormDetail> 
+    </FormDetail>
   );
 };
 

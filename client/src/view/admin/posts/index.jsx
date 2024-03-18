@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { deletePostApi, getListPostApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { useGetParams } from '@hook';
+import { useGetApi } from '@lib/react-query';
 import DetailPost from './Detail';
 import { Body, DataFilter, FormList, NumberBody, RoleTitle, TimeBody } from '@components/base';
 import { postType } from '@constant';
-import {posts} from "../../../data";
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -40,18 +41,21 @@ const Posts = () => {
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];
 
+  const { isLoading, data } = useGetApi(getListPostApi, params, 'posts');
+
   return (
     <>
-      <DetailPost show={show} setShow={setShow} setParams={setParams} data={posts} mode="admin" />
+      <DetailPost show={show} setShow={setShow} setParams={setParams} data={data?.documents} mode="admin" />
       <FormList
+        isLoading={isLoading}
         title="Quản lý bài viết"
-        data={posts}
-        totalRecord={posts.length}
+        data={data?.documents}
+        totalRecord={data?.total}
         columns={columns}
         params={params}
         setParams={setParams}
         baseActions={['insert', 'detail', 'delete']}
-        actionsInfo={{ onViewDetail: (item) => setShow(item._id)}}
+        actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deletePostApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
       >
         <Filter setParams={setParams} />

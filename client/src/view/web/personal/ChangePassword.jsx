@@ -1,17 +1,21 @@
+import { changePasswordApi } from '@api';
 import { Loading } from '@components/base';
 import { InputFormDetail } from '@components/form';
 import { Button, Hr } from '@components/uiCore';
-import { useAuthContext } from '@context/AuthContext';
+import { INITIAL_USER_INFO, useAuthContext } from '@context/AuthContext';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { usePostApi } from '@lib/react-query';
 import { ChangePasswordValidation } from '@lib/validation';
 import { useToastState } from '@store';
 import React from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 
 const ChangePassword = () => {
+  const navigate = useNavigate();
   const { setUserInfo, setIsAuthenticated } = useAuthContext();
   const { showToast } = useToastState();
-  const isPending = false
+  const { mutateAsync, isPending } = usePostApi(changePasswordApi);
 
   const {
     register,
@@ -26,7 +30,15 @@ const ChangePassword = () => {
   });
 
   const onSubmit = async (data) => {
-
+    const response = await mutateAsync(data);
+    if (response) {
+      setUserInfo(INITIAL_USER_INFO);
+      setIsAuthenticated(false);
+      localStorage.removeItem('token');
+      showToast({ title: 'Đăng xuất thành công', severity: 'success' });
+      showToast({ title: 'Cập nhật mật khẩu thành công, vui lòng đăng nhập lại!', severity: 'success' });
+      navigate('/auth/signin');
+    }
   };
 
   return (
@@ -50,7 +62,6 @@ const ChangePassword = () => {
             type="password"
             register={register}
             errors={errors}
-            required 
           />
           <InputFormDetail
             className="!w-full my-1"
@@ -59,7 +70,6 @@ const ChangePassword = () => {
             type="password"
             register={register}
             errors={errors}
-            required 
           />
         </div>
       </div>

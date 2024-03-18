@@ -1,10 +1,12 @@
+import { getListCommentApi } from '@api';
 import { Comments } from '@components/extend';
+import { useGetApi } from '@lib/react-query';
 import React, { useEffect, useRef, useState } from 'react';
 import { BiX } from 'react-icons/bi';
-import {comments} from "../../../data";
 
 const Discuss = ({ show, setShow, lessonId }) => {
   const [render, setRender] = useState(false);
+  const { data: comments } = useGetApi(getListCommentApi, { objectId: lessonId, type: 2, render }, 'comments', Boolean(lessonId));
   const ref = useRef(null);
 
   const handleClickOutside = (e) => {

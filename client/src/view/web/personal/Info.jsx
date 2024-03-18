@@ -66,8 +66,7 @@ const Info = () => {
       <Hr />
       <div className={'relative flex flex-wrap'}>
         {isPending && (
-          // <div className="absolute w-full h-full bg-black opacity-30 z-10 flex justify-center items-center">
-          <div className="absolute w-full h-full bg-slate-700 opacity-30 z-10 flex justify-center items-center">
+          <div className="absolute w-full h-full bg-black opacity-30 z-10 flex justify-center items-center">
             <Loading size={8} border={4} severity="secondary" />
           </div>
         )}

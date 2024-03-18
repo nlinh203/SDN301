@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
+import {deleteLessonApi, getListLessonApi, getListLessonInfoApi, updateLessonApi} from '@api';
 import {InputFormV2, SelectFormV2} from '@components/form';
 import {statuses} from '@constant';
 import {useGetParams} from '@hook';
+import {useGetApi} from '@lib/react-query';
 import {DataFilter, FormList, NumberBody, TimeBody} from '@components/base';
 import {useDataState} from '@store';
 import {useNavigate} from "react-router-dom";
 import {Link} from "@components/uiCore";
-import {courses, lessons} from "../../../data";
 
 const Filter = ({setParams, courses = []}) => {
     const [filter, setFilter] = useState({});
@@ -35,9 +36,11 @@ const Filter = ({setParams, courses = []}) => {
 };
 
 const Lessons = () => {
+    const { setLessons } = useDataState()
     const navigate = useNavigate()
     const initParams = useGetParams();
     const [params, setParams] = useState(initParams);
+    const {courses} = useDataState();
 
     const columns = [
         {
@@ -54,20 +57,30 @@ const Lessons = () => {
         {label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt)}
     ];
 
+    const {isLoading, data} = useGetApi(getListLessonApi, params, 'lessons');
+
+    const onSuccess = async () => {
+        const lessons = await getListLessonInfoApi();
+        if (lessons) setLessons(lessons)
+    }
+
     return (
         <FormList
+            isLoading={isLoading}
             title="Quản lý bài giảng"
-            data={lessons}
-            totalRecord={lessons.length}
+            data={data?.documents}
+            totalRecord={data?.total}
             columns={columns}
             params={params}
             setParams={setParams}
             baseActions={['insert', 'detail', 'delete']}
             actionsInfo={{
                 onViewDetail: (item) => navigate(`/admin/lessons/detail/${item._id}`),
+                deleteApi: deleteLessonApi
             }}
-            statusInfo={{}}
+            statusInfo={{changeStatusApi: updateLessonApi}}
             headerInfo={{onInsert: () => navigate('/admin/lessons/insert')}}
+            onSuccess={onSuccess}
         ><Filter setParams={setParams} courses={courses}/></FormList>
     );
 };

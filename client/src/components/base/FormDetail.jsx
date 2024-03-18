@@ -1,5 +1,6 @@
 import React from 'react';
 import {Button, Hr, Modal} from '@components/uiCore';
+import {usePostApi} from '@lib/react-query';
 import {Loading} from '@components/base';
 import {useToastState} from '@store';
 import {useNavigate} from "react-router-dom";
@@ -36,10 +37,20 @@ const FormDetail = (props) => {
         size
     } = props;
     const isModal = type === 'modal'
+    const {mutateAsync, isPending} = usePostApi(isUpdate ? updateApi : insertApi);
     const newTitle = `${isUpdate ? 'Cập nhật' : 'Thêm mới'} ${title && String(title).toLocaleLowerCase()}`;
 
     const onSubmit = async (e) => {
-
+        const data = handleData(e);
+        const response = await mutateAsync(data);
+        if (response) {
+            onSuccess()
+            showToast({title: `${newTitle} thành công!`, severity: 'success'});
+            if (isModal) {
+                setShow(false);
+                setParams((pre) => ({...pre, render: !pre.render}));
+            } else navigate(-1)
+        }
     };
 
     return (
@@ -47,7 +58,7 @@ const FormDetail = (props) => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="p-6">
                     <div className="card relative">
-                        {false && (
+                        {isPending && (
                             <div
                                 className="absolute w-full h-full bg-black opacity-30 z-10 flex justify-center items-center">
                                 <Loading size={8} border={4} severity="secondary"/>
@@ -62,7 +73,7 @@ const FormDetail = (props) => {
                         if (isModal) setShow(false)
                         else navigate(-1)
                     }}/>
-                    <Button type="submit" label="Xác nhận"/>
+                    <Button disabled={isPending} type="submit" label="Xác nhận"/>
                 </div>
             </form>
         </Wrapper>

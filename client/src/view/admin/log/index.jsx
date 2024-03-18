@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
+import {getListLogApi} from '@api';
 import {InputFormV2, SelectFormV2} from '@components/form';
 import {useGetParams} from '@hook';
+import {useGetApi} from '@lib/react-query';
 import {Body, DataFilter, FormList, NumberBody, TimeBody} from '@components/base';
 import {logStatus, logType, statusLog} from "@constant";
 
@@ -42,11 +44,14 @@ const Log = () => {
         {label: 'Trạng thái', body: (item) => Body(statusLog, item.status)},
     ];
 
+    const {isLoading, data} = useGetApi(getListLogApi, params, 'logs');
+
     return (
         <FormList
+            isLoading={isLoading}
             title="Lịch sử gửi thông báo"
-            data={[]}
-            totalRecord={0}
+            data={data?.documents}
+            totalRecord={data?.total}
             columns={columns}
             params={params}
             setParams={setParams}

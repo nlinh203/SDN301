@@ -6,12 +6,14 @@ import { orderBy, orderType } from '@constant';
 import { Pagination } from '@components/base';
 import Filter from './Filter';
 import { useGetParams } from '@hook';
-import {courses} from "../../../data";
+import { useGetApi } from '@lib/react-query';
+import { getListCourseWebApi } from '@api';
 
 const WebCourses = () => {
   const initParams = useGetParams();
   const [params, setParams] = useState(initParams);
   const [sort, setSort] = useState({ orderBy: 'createdAt', orderType: -1 });
+  const { data } = useGetApi(getListCourseWebApi, params, 'courses');
 
   useEffect(() => {
     if (sort?.orderBy && sort?.orderType) {
@@ -45,8 +47,8 @@ const WebCourses = () => {
           </div>
           <Hr />
           <div className="p-4 flex flex-wrap mt-4">
-            {courses.length > 0 ? (
-                courses.map((item, index) => {
+            {data?.documents?.length > 0 ? (
+              data.documents.map((item, index) => {
                 return (
                   <div key={index} className="xs:w-full sm:w-6/12 md:w-4/12 py-2">
                     <CourseCard item={item} type={item.price ? 'pro' : 'free'} />
@@ -59,7 +61,7 @@ const WebCourses = () => {
           </div>
           <Hr />
           <div className="flex justify-center my-4">
-            <Pagination totalRecord={courses.length} params={params} setParams={setParams} />
+            <Pagination totalRecord={data?.total} params={params} setParams={setParams} />
           </div>
         </div>
       </div>

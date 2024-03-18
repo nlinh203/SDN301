@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
+import { deleteUserApi, getInfoApi, getListUserApi, updateUserApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { statuses } from '@constant';
 import { useGetParams } from '@hook';
+import { useGetApi } from '@lib/react-query';
 import Detail from './Detail';
 import { DataFilter, TimeBody, FormList } from '@components/base';
 import { useAuthContext } from '@context/AuthContext';
-import {users} from "../../../data";
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
@@ -42,21 +43,34 @@ const Users = () => {
     { label: 'Thời gian cập nhật', body: (item) => TimeBody(item.updatedAt) }
   ];
 
+  const { isLoading, data } = useGetApi(getListUserApi, params, 'users');
+
+  const onSuccess = async (item) => {
+    if (item._id === userInfo._id) {
+      const response = await getInfoApi();
+      if (response) {
+        setUserInfo(response);
+      } else localStorage.removeItem('token');
+    }
+  };
+
   return (
     <>
-      <Detail show={show} setShow={setShow} setParams={setParams} data={users} />
+      <Detail show={show} setShow={setShow} setParams={setParams} data={data?.documents} />
       <FormList
+        isLoading={isLoading}
         title="Quản lý người dùng"
-        data={users}
-        totalRecord={users.length}
+        data={data?.documents}
+        totalRecord={data?.total}
         columns={columns}
         params={params}
         setParams={setParams}
         baseActions={['insert', 'detail', 'delete']}
         setShow={setShow}
-        actionsInfo={{ onViewDetail: (item) => setShow(item._id),  }}
-        statusInfo={{  }}
+        actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deleteUserApi }}
+        statusInfo={{ changeStatusApi: updateUserApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
+        onSuccess={onSuccess}
       >
         <Filter setParams={setParams} />
       </FormList>
