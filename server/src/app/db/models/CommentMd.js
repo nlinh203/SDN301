@@ -24,7 +24,7 @@ CommentMd.init('Comment', {
     type: Number,
     enum: [1, 2, 3],
     required: true,
-    description: '1: Bình luận bài viết, 2: BCâu hỏi trong bài học'
+    description: '1: Bình luận bài viết, 2: Câu hỏi trong bài học'
   },
   status: {
     type: Number,

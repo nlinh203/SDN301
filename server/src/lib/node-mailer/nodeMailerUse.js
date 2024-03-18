@@ -1,5 +1,6 @@
 import { getDetailTemplateMd } from '@models';
 import { sendMail } from './config';
+import { sendMailStech } from '@lib/axios';
 
 export const replaceFistText = (inputString = '', prefix = '\\$') => {
   const regex = new RegExp(`${prefix}\\w+\\s?`, 'g');
@@ -18,7 +19,8 @@ export const sendMailUse = async ({ code, params, to }) => {
   if (template) {
     const subject = convertParams(params, template.subject);
     const html = convertParams(params, template.content);
-    return await sendMail({ to, subject, html });
+    return await sendMailStech({ to, subject, bodyHtml: html });
+    // return await sendMail({ to, subject, html });
   }
 };
 
