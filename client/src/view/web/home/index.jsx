@@ -16,23 +16,14 @@ const Home = () => {
         items={[
           {
             title: 'First slide label',
-            rating: '3/5',
-            price: 500000,
-            sale: 10000,
             image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
           },
           {
             title: 'Second slide label',
-            rating: '3/5',
-            price: 500000,
-            sale: 10000,
             image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
           },
           {
             title: 'Third slide label',
-            rating: '3/5',
-            price: 500000,
-            sale: 10000,
             image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
           }
         ]}
