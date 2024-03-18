@@ -15,15 +15,15 @@ const Home = () => {
       <Carousel
         items={[
           {
-            title: 'First slide label',
+            title: 'Môi trường học tập đa dạng và phong phú, từ các khóa học cơ bản đến nâng cao, từ các lĩnh vực chuyên ngành đến nghệ thuật và văn hóa.',
             image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(15).jpg'
           },
           {
-            title: 'Second slide label',
+            title: 'Người dùng có thể dễ dàng duyệt qua các chủ đề khóa học khác nhau, tìm kiếm theo từ khóa, chủ đề hoặc ngôn ngữ để tìm tài liệu phù hợp với nhu cầu học tập của mình',
             image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(22).jpg'
           },
           {
-            title: 'Third slide label',
+            title: 'Mỗi khóa học trong dự án này đều được thiết kế cẩn thận, kết hợp các video bài giảng chất lượng cao, tài liệu đọc, bài tập thực hành và các tài nguyên học tập khác như diễn đàn trực tuyến và tư vấn trực tiếp',
             image: 'https://tecdn.b-cdn.net/img/Photos/Slides/img%20(23).jpg'
           }
         ]}
