@@ -18,6 +18,7 @@ const Select = (props) => {
       preventFirstSelection
       noResultsText="không có kết quả"
       size={size}
+      search
       data={handleData(data)}
       {...prop}
     />

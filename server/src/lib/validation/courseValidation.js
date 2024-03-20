@@ -43,7 +43,8 @@ export const addCourseValid = {
   type: { type: 'number', allowNull: true },
   isHot: { type: 'boolean', allowNull: true },
   isNew: { type: 'boolean', allowNull: true },
-  status: { type: 'number', allowNull: true }
+  status: { type: 'number', allowNull: true },
+  trailer: { type: 'string', allowNull: true },
 };
 
 export const updateCourseValid = {
@@ -59,7 +60,8 @@ export const updateCourseValid = {
   isHot: { type: 'boolean', allowNull: true },
   isNew: { type: 'boolean', allowNull: true },
   status: { type: 'number', allowNull: true },
-  image: { type: 'string', allowNull: true }
+  image: { type: 'string', allowNull: true },
+  trailer: { type: 'string', allowNull: true },
 };
 
 export const registerCourseValid = {

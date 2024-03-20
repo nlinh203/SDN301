@@ -27,12 +27,12 @@ NotifyMd.init('Notify', {
   content: { type: String, required: true },
   type: {
     type: Number,
-    enum: [1, 2, 3, 4, 5, 6],
+    enum: [1, 2, 3, 4, 5, 6, 7],
     required: true,
     description:
-      '1: Like bài viết, 2: Thêm bình luận, 3: Trả lời bình luận, 4: Đăng ký khóa học, 5: Đặt câu hỏi trong bài học, 6: Hoàn thành bài học'
+      '1: Like bài viết, 2: Thêm bình luận, 3: Trả lời bình luận, 4: Đăng ký khóa học, 5: Đặt câu hỏi trong bài học, 6: Hoàn thành bài học, 7: Thêm bài viết cần duyệt'
   },
-  objectId: { type: ObjectId, required: true },
+  objectId: { type: ObjectId },
   status: {
     type: Number,
     enum: [0, 1, 2],

@@ -10,6 +10,8 @@ import { items } from './items';
 import NotifySection from '@layout/admin-layout/top-bar/notify-section';
 import { BiSolidNews } from 'react-icons/bi';
 import News from './News';
+import { getListNewsApi } from '@api';
+import { useInfinityApi } from '@lib/react-query';
 
 const WebLayout = ({ children }) => {
   const navigate = useNavigate();
@@ -18,6 +20,20 @@ const WebLayout = ({ children }) => {
   const { pathname } = useLocation();
   const [select, setSelect] = useState(null);
   const [show, setShow] = useState(true);
+  const [news, setNews] = useState([]);
+  const { data, fetchNextPage, hasNextPage } = useInfinityApi((params) => getListNewsApi(params), 'news', 10);
+  const newData = news.filter(n => new Date(n.createdAt) > new Date())
+
+  useEffect(() => {
+    if (data?.pages) {
+      let newData = [];
+      data.pages.forEach((d) => {
+        const documents = d?.documents;
+        if (Array.isArray(documents)) newData = [...newData, ...documents];
+      });
+      setNews(newData);
+    }
+  }, [data]);
 
   const onSignOut = () => {
     setUserInfo(INITIAL_USER_INFO);
@@ -65,10 +81,10 @@ const WebLayout = ({ children }) => {
       <Footer />
       <div className="fixed bottom-4 left-4">
         <Button severity="danger" onClick={() => setShow(true)}>
-          <BiSolidNews size={20} /> Tin tức
+          <BiSolidNews size={20} /> Tin tức ({newData?.length})
         </Button>
       </div>
-      <News show={show} setShow={setShow} />
+      <News news={news} show={show} setShow={setShow} />
     </div>
   );
 };

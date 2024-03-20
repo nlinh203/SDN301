@@ -33,6 +33,8 @@ const Notify = ({ status, render, setRender }) => {
           return navigate(`/learning/${item?.data?.slug}?id=${item?.objectId}`);
         case 6:
           return navigate(`/learning/${item?.data?.slug}?id=${item?.objectId}`);
+        case 7:
+          return navigate(`/admin/posts`);
       }
     }
   };

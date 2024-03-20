@@ -17,5 +17,6 @@ export const items = [
   { label: 'Quản lý bài viết', icon: BiNews, route: '/posts' },
   { label: 'Phản hồi người dùng', icon: BiSmile, route: '/feedbacks' },
   { label: 'Templates', icon: BiDevices, route: '/templates' },
-  { label: 'Lịch sử gửi thông báo', icon: BiBell, route: '/log' }
+  { label: 'Lịch sử gửi thông báo', icon: BiBell, route: '/log' },
+  { label: 'Lịch sử giao dịch', icon: BiBookAlt, route: '/transaction_history' }
 ];

@@ -9,5 +9,19 @@ courseRouter.use(staffMiddleware);
 courseRouter.get('/getListCourse', getListCourse);
 courseRouter.get('/detailCourse', detailCourse);
 courseRouter.delete('/deleteCourse', deleteCourse);
-courseRouter.post('/addCourse', upload.single('image'), addCourse);
-courseRouter.post('/updateCourse', upload.single('image'), updateCourse);
+courseRouter.post(
+  '/addCourse',
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'trailer', maxCount: 1 }
+  ]),
+  addCourse
+);
+courseRouter.post(
+  '/updateCourse',
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'trailer', maxCount: 1 }
+  ]),
+  updateCourse
+);

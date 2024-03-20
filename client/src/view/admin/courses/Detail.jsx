@@ -1,4 +1,4 @@
-import { UploadImage, InputFormDetail, MultiCheckBox, SelectFormDetail, SwitchForm, TextAreaForm } from '@components/form';
+import { UploadImage, InputFormDetail, MultiCheckBox, SelectFormDetail, SwitchForm, TextAreaForm, UploadFiles } from '@components/form';
 import { CourseValidation } from '@lib/validation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import React, { useEffect, useState } from 'react';
@@ -23,6 +23,7 @@ const defaultValues = {
   description: '',
   status: 1,
   type: '',
+  trailer: '',
   characteristic: []
 };
 
@@ -30,6 +31,7 @@ const Detail = () => {
   const { setCourses } = useDataState();
   const { _id } = useParams();
   const [image, setImage] = useState(null);
+  const [files, setFiles] = useState([]);
   const [buttonActive, setButtonActive] = useState('tab1');
   const isUpdate = Boolean(_id);
   const { data: item } = useGetApi(detailCourseApi, { _id }, 'course', isUpdate);
@@ -46,7 +48,7 @@ const Detail = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    setValue,
+    setValue
   } = useForm({
     resolver: yupResolver(CourseValidation),
     defaultValues
@@ -54,11 +56,12 @@ const Detail = () => {
 
   useEffect(() => {
     if (isUpdate && item?._id) {
-      const newItem = { ...item }
+      const newItem = { ...item };
       if (newItem.image) setImage(item.image);
       const characteristic = [];
       if (newItem.isHot) characteristic.push('isHot');
       if (newItem.isNew) characteristic.push('isNew');
+      if (newItem.trailer) setFiles([newItem.trailer]);
       newItem.characteristic = characteristic;
       if (newItem?.skills && Array.isArray(newItem.skills)) newItem.skills = newItem?.skills?.join('; ');
       if (newItem?.requirements && Array.isArray(newItem.requirements)) newItem.requirements = newItem?.requirements?.join('; ');
@@ -84,6 +87,10 @@ const Detail = () => {
     };
     if (image && image !== item?.image) newData.formData = { image };
     if (!image && item.image) newData.image = '';
+    if (files && files[0] && !newData.trailer) {
+      if (newData.formData) newData.formData = { ...newData.formData, trailer: files[0] };
+      else newData.formData = { trailer: files[0] };
+    }
     if (isUpdate) return { ...checkEqualProp(newData, item), status: data.status ? 1 : 0, _id };
     else return newData;
   };
@@ -128,7 +135,11 @@ const Detail = () => {
               <TextAreaForm id="skills" label="Kỹ năng học được" className="w-full p-2" watch={watch} setValue={setValue} />
               <TextAreaForm id="requirements" label="Yêu cầu" className="w-full p-2" watch={watch} setValue={setValue} />
               <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
-              <MultiCheckBox data={courseCharacteristic} value={watch('characteristic')} onChange={(e) => setValue('characteristic', e)} />
+              <div className={'w-full card flex flex-col gap-2 justify-center items-center m-2'}>
+                <InputFormDetail id="trailer" label="Trailer url" register={register} errors={errors} className="!w-full" />
+                <h1 className='font-bold'>Or</h1>
+                <UploadFiles label={'Trailer'} files={files} setFiles={setFiles} max={1} type='video/' />
+              </div>
             </div>
           </div>
         </TETabsPane>

@@ -21,7 +21,7 @@ export const sendMailUse = async ({ code, params, to }) => {
     const html = convertParams(params, template.content);
     return await sendMailStech({ to, subject, bodyHtml: html });
     // return await sendMail({ to, subject, html });
-  }
+  } else return { status: false, mess: "Chưa có mẫu gửi thông báo!" }
 };
 
 export const sendMailSignup = ({ to, username, otp }) => {

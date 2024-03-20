@@ -1,5 +1,5 @@
 import { addPostValid, listPostValid, updatePostValid, detailPostValid, detailPostWebValid } from '@lib/validation';
-import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, updatePostMd, updateUserMd } from '@models';
+import { addPostMd, countListPostMd, deletePostMd, getDetailPostMd, getListPostMd, getListUserMd, updatePostMd, updateUserMd } from '@models';
 import { removeSpecialCharacter, validateData } from '@utils';
 import { uploadFileToFirebase } from '@lib/firebase';
 import { NOTI_CONTENT } from '@constant';
@@ -9,10 +9,11 @@ export const getListPost = async (req, res) => {
   try {
     const { error, value } = validateData(listPostValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, type } = value;
+    const { page, limit, keySearch, status, type } = value;
     const where = {};
     if (keySearch) where.title = { $regex: keySearch, $options: 'i' };
     if (type) where.type = type;
+    if (status || status === 0) where.status = status;
     const documents = await getListPostMd(where, page, limit, [{ path: 'by', select: 'fullName role' }]);
     const total = await countListPostMd(where);
     res.json({ status: true, data: { documents, total } });
@@ -26,7 +27,7 @@ export const getListPostWeb = async (req, res) => {
     const { error, value } = validateData(listPostValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
     const { page, limit, keySearch } = value;
-    const where = { type: 'post' };
+    const where = { type: 'post', status: 1 };
     if (keySearch) where.title = { $regex: keySearch, $options: 'i' };
     const documents = await getListPostMd(
       where,
@@ -122,6 +123,10 @@ export const addPost = async (req, res) => {
       image = await uploadFileToFirebase(req.file);
     }
 
+    let status;
+    if (['admin', 'staff'].includes(req.userInfo.role)) status = 1;
+    else status = 0;
+
     const slug = type !== 'news' ? `${Date.now()}-${removeSpecialCharacter(title)}` : undefined;
     const data = await addPostMd({
       by: req.userInfo._id,
@@ -132,9 +137,25 @@ export const addPost = async (req, res) => {
       image,
       slug,
       description,
-      type
+      type,
+      status
     });
     await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { posts: data._id } });
+    if (status === 0) {
+      const users = await getListUserMd({ role: { $in: ['admin', 'staff'] } });
+      if (users.length > 0) {
+        for (const user of users) {
+          await addNotifyRp({
+            fromBy: 2,
+            by: req.userInfo._id,
+            to: user._id,
+            type: 7,
+            content: NOTI_CONTENT[7],
+            fullName: req.userInfo?.fullName
+          });
+        }
+      }
+    }
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });
@@ -145,23 +166,18 @@ export const updatePost = async (req, res) => {
   try {
     const { error, value } = validateData(updatePostValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, title, content, time, hashtag, image, description, slug } = value;
+    let { _id, title, content, status, time, hashtag, image, description, slug } = value;
 
     const post = await getDetailPostMd({ _id });
     if (!post) return res.status(400).json({ status: false, mess: 'Bài viết không tồn tại!' });
 
     if (title && post.type === 'post') slug = `${Date.now()}-${removeSpecialCharacter(title)}`;
-    if (req.userInfo.role !== 'admin' && post.by !== req.userInfo._id)
-      return res.status(400).json({
-        status: false,
-        mess: 'Bạn không có quyền cập nhật bài viết này!'
-      });
 
     if (req.file) {
       image = await uploadFileToFirebase(req.file);
     }
 
-    const data = await updatePostMd({ _id }, { title, content, time, hashtag, image, description, slug });
+    const data = await updatePostMd({ _id }, { title, status, content, time, hashtag, image, description, slug });
     res.status(201).json({ status: true, data });
   } catch (error) {
     res.status(500).json({ status: false, mess: error.toString() });

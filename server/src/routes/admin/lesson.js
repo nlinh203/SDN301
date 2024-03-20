@@ -9,5 +9,19 @@ lessonRouter.use(staffMiddleware);
 lessonRouter.get('/getListLesson', getListLesson);
 lessonRouter.get('/detailLesson', detailLesson);
 lessonRouter.delete('/deleteLesson', deleteLesson);
-lessonRouter.post('/addLesson', upload.array('files'), addLesson);
-lessonRouter.post('/updateLesson', upload.array('files'), updateLesson);
+lessonRouter.post(
+  '/addLesson',
+  upload.fields([
+    { name: 'url', maxCount: 1 },
+    { name: 'files', maxCount: 8 }
+  ]),
+  addLesson
+);
+lessonRouter.post(
+  '/updateLesson',
+  upload.fields([
+    { name: 'url', maxCount: 1 },
+    { name: 'files', maxCount: 8 }
+  ]),
+  updateLesson
+);

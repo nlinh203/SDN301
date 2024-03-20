@@ -1,4 +1,4 @@
-import { Button, Hr } from '@components/uiCore';
+import { Button, Hr, Modal } from '@components/uiCore';
 import { FaCrown } from 'react-icons/fa';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -9,6 +9,7 @@ import Reviews from './Reviews';
 import { useConfirmState, useToastState } from '@store';
 import { useAuthContext } from '@context/AuthContext';
 import { formatMinuteStringV1, formatMinuteStringV2, formatNumber } from '@utils';
+import ReactPlayer from 'react-player';
 
 const DetailCourseWeb = () => {
   const navigate = useNavigate();
@@ -17,10 +18,12 @@ const DetailCourseWeb = () => {
   const { showToast } = useToastState();
   const { showConfirm } = useConfirmState();
   const [show, setShow] = useState(false);
+  const [showz, setShowz] = useState(false);
   const [render, setRender] = useState(false);
   const { data } = useGetApi(detailCourseWebApi, { slug, render }, 'course');
   const reviews = data?.reviews;
   const check = reviews && Array.isArray(reviews) ? !Boolean(reviews.find((r) => r.by._id === userInfo._id)) : true;
+  const [isHovered, setIsHovered] = useState(false);
 
   const onWarning = async () => {
     showConfirm({
@@ -55,6 +58,11 @@ const DetailCourseWeb = () => {
 
   return (
     <div className="mt-24 flex flex-wrap">
+      <Modal title={`Giới thiệu khóa học ${data?.name}`} show={showz} setShow={setShowz}>
+        <div className="p-6 flex justify-center">
+          <ReactPlayer url={data?.trailer} controls width="100%" height="600px" />
+        </div>
+      </Modal>
       <div className="sm:w-full lg:w-7/12 text-left p-4">
         <div className="flex flex-col gap-6 px-2">
           <h1 className="text-xl uppercase font-semibold">{data?.name}</h1>
@@ -126,15 +134,38 @@ const DetailCourseWeb = () => {
       <div className="sm:w-full lg:w-5/12 p-4">
         <div className="flex flex-col gap-6 px-2">
           <div className="flex flex-col items-center justify-center my-8">
-            <div className="relative h-60 w-9/12 rounded-lg bg-cover" style={{ backgroundImage: `url('${data?.image}')` }}>
-              <span className="absolute top-0 left-0 w-full rounded-lg h-full bg-primary-500 opacity-15"></span>
-              {Boolean(data?.price) && (
-                <div className="absolute top-2 left-2 p-1 rounded-sm">
-                  <FaCrown className="relative text-yellow-500 z-10" />
-                  <div className="absolute h-full w-full top-0 left-0 bg-slate-50 opacity-70 rounded-sm z-0"></div>
+            <div
+              className="relative h-60 w-9/12 px-2 overflow-hidden"
+              onMouseEnter={() => setIsHovered(true)}
+              onMouseLeave={() => setIsHovered(false)}
+            >
+              <div className="h-full w-full flex justify-center items-center">
+                <div className="relative h-60 w-full rounded-lg bg-cover bg-slate-100" style={{ backgroundImage: `url('${data?.image}')` }}>
+                  <span className="absolute top-0 left-0 w-full rounded-lg h-full bg-primary-500 opacity-20"></span>
+                  {Boolean(data?.price) ? (
+                    <div className="absolute top-2 left-2 p-1 rounded-sm">
+                      <FaCrown className="relative text-yellow-500 z-10" />
+                      <div className="absolute h-full w-full top-0 left-0 bg-slate-50 opacity-70 rounded-sm z-0"></div>
+                    </div>
+                  ) : (
+                    <div className="absolute top-2 left-2 p-1 rounded-sm">
+                      <div className="relative text-yellow-500 z-10">Miễn phí</div>
+                      <div className="absolute h-full w-full top-0 left-0 bg-slate-50 opacity-70 rounded-sm z-0"></div>
+                    </div>
+                  )}
                 </div>
-              )}
+              </div>
+              <div className={`absolute rounded-md mx-2 inset-0 justify-center items-center group-hover:flex flex`}>
+                {isHovered && <div className="absolute rounded-md inset-0 bg-black bg-opacity-10 opacity-30"></div>}
+                <div
+                  className={`font-medium z-10 duration-300 ease-in-out transform 
+                  ${isHovered ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}`}
+                >
+                  <Button severity="secondary" label="Xem giới thiệu" onClick={() => setShowz(true)} />
+                </div>
+              </div>
             </div>
+
             <div className="flex gap-2 mt-4">
               {Boolean(userInfo?.courses?.find((c) => c.course?._id === data?._id)) ? (
                 <Button onClick={() => navigate(`/learning/${data?.slug}`)} label="Tiếp tục học" />

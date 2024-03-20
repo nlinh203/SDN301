@@ -17,7 +17,7 @@ export const uploadFileToFirebase = async (file) => {
   const fileData = file.buffer;
   const extension = file.originalname?.split('.').pop();
   const fileName = `${Date.now()}.${extension}`;
-  const uploadTo = 'images/' + fileName;
+  const uploadTo = fileName;
 
   await bucket.file(uploadTo).save(fileData, {
     metadata: {

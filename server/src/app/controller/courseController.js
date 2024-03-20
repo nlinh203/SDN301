@@ -11,9 +11,9 @@ import {
   detailLessonRegisterValid
 } from '@lib/validation';
 import {
+  Course,
   addCourseMd,
   addCourseRegisterMd,
-  addNotifyMd,
   countListCourseMd,
   deleteCourseMd,
   getDetailCourseMd,
@@ -63,14 +63,17 @@ export const getListCourseWeb = async (req, res) => {
   try {
     const { error, value } = validateData(listCourseWebValid, req.query);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, rating, characteristic, type, sort } = value;
+    let { page, limit, keySearch, fromPrice = 0, toPrice = Number.MAX_SAFE_INTEGER, rating, characteristic, type, sort } = value;
     const where = {};
     where.$and = [{ price: { $gte: fromPrice } }, { price: { $lte: toPrice } }];
     if (keySearch) where.$or = [{ name: { $regex: keySearch, $options: 'i' } }, { code: { $regex: keySearch, $options: 'i' } }];
     if (rating) where.rating = { $gte: rating };
     if (characteristic && Array.isArray(characteristic)) {
-      if (characteristic.includes('isNew')) where.isNew = true;
-      if (characteristic.includes('isHot')) where.isHot = true;
+      page = 1;
+      limit = 10;
+      if (characteristic.includes('isHot')) {
+        sort = { rating: -1 }
+      }
     }
     if (type && type[0]) where.type = { $in: type };
     const documents = await getListCourseMd(where, page, limit, false, sort, '_id price sale rating reviews name image slug');
@@ -155,7 +158,7 @@ export const addCourse = async (req, res) => {
   try {
     const { error, value } = validateData(addCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { name, code, description, skills, requirements, price, sale, type, status, isHot, isNew } = value;
+    let { name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, trailer } = value;
 
     const checkName = await getDetailCourseMd({ name });
     if (checkName) return res.status(400).json({ status: false, mess: 'Tên khóa học đã tồn tại!' });
@@ -164,8 +167,11 @@ export const addCourse = async (req, res) => {
     if (checkCode) return res.status(400).json({ status: false, mess: 'Mã khóa học đã tồn tại!' });
 
     let image;
-    if (req.file) {
-      image = await uploadFileToFirebase(req.file);
+    if (req.files?.['image']?.[0]) {
+      image = await uploadFileToFirebase(req.files['image'][0]);
+    }
+    if (req.files?.['trailer']?.[0] && !trailer) {
+      trailer = await uploadFileToFirebase(req.files['trailer'][0]);
     }
 
     const slug = removeSpecialCharacter(name);
@@ -183,7 +189,8 @@ export const addCourse = async (req, res) => {
       status,
       isHot,
       isNew,
-      image
+      image,
+      trailer
     });
     res.status(201).json({ status: true, data });
   } catch (error) {
@@ -195,7 +202,7 @@ export const updateCourse = async (req, res) => {
   try {
     const { error, value } = validateData(updateCourseValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    let { _id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image, slug } = value;
+    let { _id, name, code, description, skills, requirements, price, sale, type, status, isHot, isNew, image, slug, trailer } = value;
     const course = await getDetailCourseMd({ _id });
     if (!course) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
@@ -210,8 +217,11 @@ export const updateCourse = async (req, res) => {
       if (checkCode) return res.status(400).json({ status: false, mess: 'Mã khóa học đã tồn tại!' });
     }
 
-    if (req.file) {
-      image = await uploadFileToFirebase(req.file);
+    if (req.files?.['image']?.[0]) {
+      image = await uploadFileToFirebase(req.files['image'][0]);
+    }
+    if (req.files?.['trailer']?.[0] && !trailer) {
+      trailer = await uploadFileToFirebase(req.files['trailer'][0]);
     }
 
     const data = await updateCourseMd(
@@ -252,6 +262,7 @@ export const registerCourse = async (req, res) => {
 
     const data = await addCourseRegisterMd(attr);
     await updateUserMd({ _id: req.userInfo._id }, { $addToSet: { courses: data._id } });
+    await updateCourseMd({ _id: courseId }, { $addToSet: { registers: data._id } });
     await addNotifyRp({ fromBy: 1, to: req.userInfo._id, type: 4, content: NOTI_CONTENT[4] + ` "${course.name}"`, objectId: course._id });
     res.status(201).json({ status: true, data });
   } catch (error) {

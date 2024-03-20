@@ -1,28 +1,24 @@
 import React, { useState } from 'react';
-import { deletePostApi, getListPostApi } from '@api';
+import { deletePostApi, getListPostApi, updatePostApi } from '@api';
 import { InputFormV2, SelectFormV2 } from '@components/form';
 import { useGetParams } from '@hook';
 import { useGetApi } from '@lib/react-query';
 import DetailPost from './Detail';
 import { Body, DataFilter, FormList, NumberBody, RoleTitle, TimeBody } from '@components/base';
-import { postType } from '@constant';
+import { postType, statuses } from '@constant';
 
 const Filter = ({ setParams }) => {
   const [filter, setFilter] = useState({});
 
   return (
-    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-6/12'}>
+    <DataFilter filter={filter} setFilter={setFilter} setParams={setParams} className={'xs:w-full lg:w-3/12'}>
       <InputFormV2
         value={filter.keySearch}
         onChange={(e) => setFilter({ ...filter, keySearch: e.target.value })}
         label="Tìm kiếm theo tiêu đề bài viết"
       />
-      <SelectFormV2
-        value={filter.type}
-        onValueChange={(e) => setFilter({ ...filter, type: e.value })}
-        data={postType}
-        label="Trạng thái"
-      />
+      <SelectFormV2 value={filter.type} onValueChange={(e) => setFilter({ ...filter, type: e.value })} data={postType} label="Loại" />
+      <SelectFormV2 value={filter.status} onValueChange={(e) => setFilter({ ...filter, status: e.value })} data={statuses} label="Trạng thái" />
     </DataFilter>
   );
 };
@@ -57,6 +53,7 @@ const Posts = () => {
         baseActions={['insert', 'detail', 'delete']}
         actionsInfo={{ onViewDetail: (item) => setShow(item._id), deleteApi: deletePostApi }}
         headerInfo={{ onInsert: () => setShow(true) }}
+        statusInfo={{ changeStatusApi: updatePostApi }}
       >
         <Filter setParams={setParams} />
       </FormList>

@@ -2,6 +2,7 @@ export const listPostValid = {
   page: 'number',
   limit: 'number',
   keySearch: { type: 'string', allowNull: true },
+  status: { type: 'number', allowNull: true },
   type: { type: 'string', allowNull: true }
 };
 
@@ -28,6 +29,7 @@ export const updatePostValid = {
   content: { type: 'string', allowNull: true },
   description: { type: 'string', allowNull: true },
   time: { type: 'number', allowNull: true },
+  status: { type: 'number', allowNull: true },
   hashtag: { type: 'json', allowNull: true },
   image: { type: 'string', allowNull: true },
   type: { type: 'string', allowNull: true }

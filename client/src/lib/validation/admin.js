@@ -15,14 +15,15 @@ export const UserValidation = yup.object({
 export const CourseValidation = yup.object({
   name: yup.string().required('Tên khóa học không được bỏ trống!'),
   code: yup.string().required('Mã khóa học không được bỏ trống!'),
-  type: yup.number().required('Thể loại không được bỏ trống!')
+  type: yup.number().required('Thể loại không được bỏ trống!'),
+  // trailer: yup.string().nullable().matches(REGEX.YOUTUBE_URL, 'Video url không đúng định dạng!')
 });
 
 export const LessonValidation = yup.object({
   courseId: yup.string().required('Khóa học không được bỏ trống!'),
   title: yup.string().required('Tiêu đề không được bỏ trống!'),
   code: yup.string().required('Tiêu đề không được bỏ trống!'),
-  url: yup.string().matches(REGEX.YOUTUBE_URL, 'Video url không đúng định dạng!').required('Video url không được bỏ trống!'),
+  // url: yup.string().matches(REGEX.YOUTUBE_URL, 'Video url không đúng định dạng!'),
   author: yup.string().required('Tác giả không được bỏ trống!')
 });
 

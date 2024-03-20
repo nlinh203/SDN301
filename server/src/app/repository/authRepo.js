@@ -50,7 +50,7 @@ export const sendOtpAuthRepo = async (body, type) => {
   if (error) return { mess: error };
   const { username, email } = value;
 
-  let attr = {};
+  let dataMail = {};
   const otp = generateNumber(6);
 
   if (type === 1) {
@@ -58,17 +58,18 @@ export const sendOtpAuthRepo = async (body, type) => {
     if (checkEmail) return { mess: 'Email đã tồn tại!' };
     const checkUsername = await getDetailUserMd({ username });
     if (checkUsername) return { mess: 'Tài khoản đã tồn tại!' };
-    attr = await sendMailSignup({ to: email, username, otp });
+    dataMail = await sendMailSignup({ to: email, username, otp });
   } else {
     const checkUser = await getDetailUserMd({ username, email });
     if (!checkUser) return { mess: `Không tìm thấy người dùng có tài khoản ${username} và email ${email}!` };
-    attr = await sendMailForgotPassword({ to: email, username, otp });
+    dataMail = await sendMailForgotPassword({ to: email, username, otp });
   }
-
-  await addLogMd({ ...attr, type });
-  await deleteManyUserVerifyMd({ username, email, type });
-  const expiredAt = new Date();
-  expiredAt.setMinutes(expiredAt.getMinutes() + 30);
-  const data = await addUserVerifyMd({ username, email, otp, type, expiredAt });
-  return { data };
+  if (dataMail?.status) {
+    await addLogMd({ ...dataMail?.data, type });
+    await deleteManyUserVerifyMd({ username, email, type });
+    const expiredAt = new Date();
+    expiredAt.setMinutes(expiredAt.getMinutes() + 30);
+    const data = await addUserVerifyMd({ username, email, otp, type, expiredAt });
+    return { data };
+  } else return { mess: dataMail.mess };
 };

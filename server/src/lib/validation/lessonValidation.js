@@ -15,7 +15,7 @@ export const detailLessonValid = {
 export const addLessonValid = {
   title: 'string',
   code: 'string',
-  url: { type: 'string', pattern: REGEX.YOUTUBE_URL },
+  url: { type: 'string', pattern: REGEX.YOUTUBE_URL, allowNull: true },
   author: 'string',
   courseId: 'string',
   time: { type: 'number', allowNull: true },

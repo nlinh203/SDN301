@@ -1,25 +1,9 @@
-import { getListNewsApi } from '@api';
 import { Hr, Modal } from '@components/uiCore';
-import { useInfinityApi } from '@lib/react-query';
 import { multiFormatDateString } from '@utils';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BiSolidCheckCircle } from 'react-icons/bi';
 
-const News = ({ show, setShow }) => {
-  const [news, setNews] = useState([]);
-  const { data, fetchNextPage, hasNextPage } = useInfinityApi((params) => getListNewsApi(params), 'news', 10);
-
-  useEffect(() => {
-    if (data?.pages) {
-      let newData = [];
-      data.pages.forEach((d) => {
-        const documents = d?.documents;
-        if (Array.isArray(documents)) newData = [...newData, ...documents];
-      });
-      setNews(newData);
-    }
-  }, [data]);
-
+const News = ({ news = [], show, setShow }) => {
   return (
     <Modal noStaticBackdrop title="Coursera Replica New Feed" show={show} setShow={setShow} size="lg">
       {news?.length > 0 ? (

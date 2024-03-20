@@ -90,7 +90,7 @@ export const addLesson = async (req, res) => {
   try {
     const { error, value } = validateData(addLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { title, code, author, courseId, time, description, status, url } = value;
+    let { title, code, author, courseId, time, description, status, url } = value;
 
     const checkTitle = await getDetailLessonMd({ title });
     if (checkTitle) return res.status(400).json({ status: false, mess: 'Tiêu đề đã tồn tại!' });
@@ -102,10 +102,13 @@ export const addLesson = async (req, res) => {
     if (!checkCourse) return res.status(400).json({ status: false, mess: 'Khóa học không tồn tại!' });
 
     let files = [];
-    if (req.files) {
-      for (let file of req.files) {
+    if (req.files?.['files']?.[0]) {
+      for (let file of req.files['files']) {
         files.push(await uploadFileToFirebase(file));
       }
+    }
+    if (req.files?.['url']?.[0] && !url) {
+      url = await uploadFileToFirebase(req.files['url'][0]);
     }
 
     const data = await addLessonMd({
@@ -132,7 +135,7 @@ export const updateLesson = async (req, res) => {
   try {
     const { error, value } = validateData(updateLessonValid, req.body);
     if (error) return res.status(400).json({ status: false, mess: error });
-    const { _id, title, code, author, courseId, time, description, status, url, files = [] } = value;
+    let { _id, title, code, author, courseId, time, description, status, url, files = [] } = value;
 
     const lesson = await getDetailLessonMd({ _id });
     if (!lesson) return res.status(400).json({ status: false, mess: 'Bài giảng không tồn tại!' });
@@ -153,11 +156,14 @@ export const updateLesson = async (req, res) => {
       await updateCourseMd({ _id: checkCourse._id }, { $addToSet: { lessons: _id } });
       await updateCourseMd({ _id: lesson.courseId }, { $pull: { lessons: _id } });
     }
-
-    if (req.files) {
-      for (let file of req.files) {
+    
+    if (req.files?.['files']?.[0]) {
+      for (let file of req.files['files'][0]) {
         files.push(await uploadFileToFirebase(file));
       }
+    }
+    if (req.files?.['url']?.[0] && !url) {
+      url = await uploadFileToFirebase(req.files['url'][0]);
     }
 
     const data = await updateLessonMd(

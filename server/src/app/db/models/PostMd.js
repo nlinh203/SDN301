@@ -13,6 +13,7 @@ class PostMd extends ModelBase {
   hashtag;
   likes;
   image;
+  status;
   description;
   deletedAt;
 }
@@ -27,6 +28,7 @@ PostMd.init('Post', {
   hashtag: [{ type: String }],
   likes: [{ type: ObjectId, ref: 'User' }],
   image: { type: String },
+  status: { type: Number },
   description: { type: String },
   deletedAt: { type: Date }
 });

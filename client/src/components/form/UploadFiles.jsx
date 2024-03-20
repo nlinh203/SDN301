@@ -4,7 +4,7 @@ import { useDropzone } from 'react-dropzone';
 import { BiTrash } from 'react-icons/bi';
 
 export const UploadFiles = (props) => {
-  const { files = [], setFiles, label, max, isView } = props;
+  const { files = [], setFiles, label, max, isView, type } = props;
 
   const removeFile = (item) => {
     setFiles(files.filter((f) => f !== item));
@@ -13,6 +13,10 @@ export const UploadFiles = (props) => {
   const onDrop = useCallback((acceptedFiles) => {
     let newFiles = [...acceptedFiles];
     if (max) newFiles = newFiles.splice(0, max);
+    if (type)
+      newFiles = newFiles.filter((file) => {
+        return file.type.startsWith(type);
+      });
     setFiles((pre) => [...pre, ...newFiles]);
   }, []);
 

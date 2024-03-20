@@ -16,6 +16,7 @@ class CourseMd extends ModelBase {
   isNew;
   image;
   description;
+  trailer;
   rating;
   skills;
   requirements;
@@ -23,7 +24,7 @@ class CourseMd extends ModelBase {
   questions;
   reviews;
   status;
-  deletedAt;
+  deletedAt;  
 }
 
 CourseMd.init('Course', {
@@ -45,10 +46,12 @@ CourseMd.init('Course', {
   image: { type: String },
   rating: { type: Number, default: 5 },
   description: { type: String },
+  trailer: { type: String },
   skills: [{ type: String }],
   requirements: [{ type: String }],
   lessons: [{ type: ObjectId, ref: 'Lesson' }],
   reviews: [{ type: ObjectId, ref: 'CourseReview' }],
+  registers: [{ type: ObjectId, ref: 'CourseRegister' }],
   status: { type: Number, enum: [0, 1], default: 1 },
   deletedAt: { type: Date }
 });

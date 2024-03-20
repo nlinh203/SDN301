@@ -29,6 +29,7 @@ const DetailLesson = () => {
   const { _id } = useParams();
   const [buttonActive, setButtonActive] = useState('tab1');
   const [files, setFiles] = useState([]);
+  const [filez, setFilez] = useState([]);
   const [params, setParams] = useState({ _id, render: false });
   const [show, setShow] = useState(false);
   const { courses, lessons } = useDataState();
@@ -47,7 +48,7 @@ const DetailLesson = () => {
     handleSubmit,
     formState: { errors },
     watch,
-    setValue,
+    setValue
   } = useForm({
     resolver: yupResolver(LessonValidation),
     defaultValues
@@ -55,6 +56,7 @@ const DetailLesson = () => {
 
   useEffect(() => {
     if (item?.files?.length > 0) setFiles(item.files);
+    if (item?.url) setFilez([item.url]);
     if (isUpdate && item?._id) {
       for (const key in defaultValues) {
         setValue(key, item[key]);
@@ -76,6 +78,10 @@ const DetailLesson = () => {
         if (formData.length > 0) newData.formData = { files: formData };
       }
     } else if (item?.files?.length > 0) newData.files = [];
+    if (filez && filez[0] && !newData.url) {
+      if (newData.formData) newData.formData = { ...newData.formData, url: filez[0] };
+      else newData.formData = { url: filez[0] };
+    }
     if (isUpdate) return { ...checkEqualProp(newData, item), _id };
     else return newData;
   };
@@ -129,9 +135,13 @@ const DetailLesson = () => {
                 <InputFormDetail id="code" label="Mã bài giảng (*)" register={register} errors={errors} />
                 <InputFormDetail id="author" label="Tác giả (*)" register={register} errors={errors} />
                 <InputFormDetail type="number" id="time" label="Thời gian học (phút) (*)" register={register} errors={errors} />
-                <InputFormDetail id="url" label="Video url (*)" register={register} errors={errors} />
-                <div className='w-6/12'></div>
                 <SwitchForm id="status" label="Trạng thái (*)" watch={watch} setValue={setValue} />
+                <div className={'w-full card flex flex-col gap-2 justify-center items-center m-2'}>
+                  <InputFormDetail id="url" label="Video url" register={register} errors={errors} className="!w-full" />
+                  <h1 className="font-bold">Or</h1>
+                  <UploadFiles label={'Video'} files={filez} setFiles={setFilez} max={1} type='video/' />
+                </div>
+                <div className="w-6/12"></div>
                 <TextAreaForm id="description" label="Mô tả" className="w-full p-2" watch={watch} setValue={setValue} />
               </div>
               <div className={'w-full'}>
