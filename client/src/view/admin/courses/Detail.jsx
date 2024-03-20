@@ -86,7 +86,7 @@ const Detail = () => {
       characteristic: undefined
     };
     if (image && image !== item?.image) newData.formData = { image };
-    if (!image && item.image) newData.image = '';
+    if (!image && item?.image) newData.image = '';
     if (files && files[0] && !newData.trailer) {
       if (newData.formData) newData.formData = { ...newData.formData, trailer: files[0] };
       else newData.formData = { trailer: files[0] };
