@@ -27,10 +27,10 @@ const MyPosts = () => {
           <TETabsItem onClick={() => handleButtonClick('tab1')} active={buttonActive === 'tab1'} tag="button">
             Bài viết đã đăng
           </TETabsItem>
-          <TETabsItem onClick={() => handleButtonClick('tab2')} active={buttonActive === 'tab1'} tag="button">
+          <TETabsItem onClick={() => handleButtonClick('tab2')} active={buttonActive === 'tab2'} tag="button">
             Bài viết chờ duyệt
           </TETabsItem>
-          <TETabsItem onClick={() => handleButtonClick('tab3')} active={buttonActive === 'tab2'} tag="button">
+          <TETabsItem onClick={() => handleButtonClick('tab3')} active={buttonActive === 'tab3'} tag="button">
             Bài viết đã lưu
           </TETabsItem>
         </TETabs>
