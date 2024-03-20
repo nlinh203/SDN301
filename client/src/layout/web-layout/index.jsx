@@ -22,7 +22,6 @@ const WebLayout = ({ children }) => {
   const [show, setShow] = useState(true);
   const [news, setNews] = useState([]);
   const { data, fetchNextPage, hasNextPage } = useInfinityApi((params) => getListNewsApi(params), 'news', 10);
-  const newData = news.filter(n => new Date(n.createdAt) > new Date())
 
   useEffect(() => {
     if (data?.pages) {
@@ -81,7 +80,7 @@ const WebLayout = ({ children }) => {
       <Footer />
       <div className="fixed bottom-4 left-4">
         <Button severity="danger" onClick={() => setShow(true)}>
-          <BiSolidNews size={20} /> Tin tức ({newData?.length})
+          <BiSolidNews size={20} /> Tin tức ({news?.length})
         </Button>
       </div>
       <News news={news} show={show} setShow={setShow} />
